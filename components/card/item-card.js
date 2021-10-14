@@ -2,8 +2,17 @@ import { CardCartBtn } from '../ui/button';
 import classes from './item-card.module.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Skeleton } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../store/cart-slice';
 
 function ItemCard(props) {
+
+    const dispatch = useDispatch();
+
+    const addToCart = () => {
+        dispatch(cartActions.addItem());
+    }
+
     return (
         <div className={classes.wrapper}>
             <div className={classes.img}>
@@ -14,7 +23,7 @@ function ItemCard(props) {
             </div>
             <div className={classes.footer}>
                 <p>Rp {props.cost}</p>
-                <CardCartBtn>
+                <CardCartBtn onClick={addToCart}>
                     <AiOutlineShoppingCart />
                 </CardCartBtn>
             </div>

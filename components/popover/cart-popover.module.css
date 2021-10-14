@@ -1,0 +1,59 @@
+.popover {
+    padding: 1rem;
+    width: 25rem;
+    border-radius: 20px;
+    height: 42rem;
+}
+
+.balance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    padding-block: .5rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+.btn {
+    padding: 1rem;
+    border-radius: 30px;
+    width: 100%;
+    font-size: .8rem;
+}
+
+.btn:hover {
+    background-color: #3071E7;
+    color: #fff;
+}
+
+.items {
+    height: 75%;
+    overflow: auto;
+    padding-right: 1rem;
+}
+
+/* width */
+.items::-webkit-scrollbar {
+    width: .3rem;
+}
+
+/* Track */
+.items::-webkit-scrollbar-track {
+    background: #f6f7fb;
+}
+
+/* Handle */
+.items::-webkit-scrollbar-thumb {
+    background: #3071E7;
+}
+
+/* Handle on hover */
+.items::-webkit-scrollbar-thumb:hover {
+    background: #4c4bb5;
+}

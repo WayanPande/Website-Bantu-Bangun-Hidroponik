@@ -55,13 +55,29 @@ function ItemCarousel() {
                 </div>
             </div>
             {isLoading && (
-                <div className={classes.skeletonCarousel}>
-                    <ItemCardLoading />
-                    <ItemCardLoading />
-                    <ItemCardLoading />
-                    <ItemCardLoading />
-                    <ItemCardLoading />
-                </div>
+                <Slider ref={carouselControl} {...settings}>
+                    <div className={classes.card}>
+                        <ItemCardLoading />
+                    </div>
+                    <div className={classes.card}>
+                        <ItemCardLoading />
+                    </div>
+                    <div className={classes.card}>
+                        <ItemCardLoading />
+                    </div>
+                    <div className={classes.card}>
+                        <ItemCardLoading />
+                    </div>
+                    <div className={classes.card}>
+                        <ItemCardLoading />
+                    </div>
+                    <div className={classes.card}>
+                        <ItemCardLoading />
+                    </div>
+                    <div className={classes.card}>
+                        <ItemCardLoading />
+                    </div>
+                </Slider>
             )}
             {!isLoading && (
                 <Slider ref={carouselControl} {...settings}>

@@ -11,7 +11,7 @@ export function ArrowBtn(props) {
 
 export function CardCartBtn(props) {
     return (
-        <Button type='button' variant='contained' className={classes.cart} >
+        <Button onClick={props.onClick} type='button' variant='contained' className={classes.cart} >
             {props.children}
         </Button>
     )

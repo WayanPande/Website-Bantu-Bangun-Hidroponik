@@ -31,5 +31,10 @@
 }
 
 .card {
-    margin-left: 1.4rem;
+    margin-left: 1.6rem;
+}
+
+.skeletonCarousel {
+    display: flex;
+    gap: 3rem;
 }

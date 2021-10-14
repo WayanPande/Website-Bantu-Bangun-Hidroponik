@@ -1,16 +1,27 @@
 import { ArrowBtn } from '../ui/button';
 import classes from './item-carousel.module.css';
 import { MdArrowBackIosNew, MdArrowForwardIos, MdKeyboardArrowRight } from 'react-icons/md';
-import ItemCard from '../card/item-card';
+import ItemCard, { ItemCardLoading } from '../card/item-card';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRef } from 'react';
-import DUMMY_ITEMS from '../../dummy-item-data';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllItems } from '../../store/product-actions';
 
 function ItemCarousel() {
 
     const carouselControl = useRef();
+    const popularItem = useSelector(state => state.product.items);
+    const isLoading = useSelector(state => state.ui.isLoading);
+
+    const list = popularItem.filter(item => item.stok < 30);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllItems());
+    }, [dispatch]);
 
     var settings = {
         infinite: true,
@@ -20,6 +31,7 @@ function ItemCarousel() {
         adaptiveHeight: true,
         variableWidth: true,
         swipeToSlide: true,
+        arrows: false
     };
 
     const nextCarouselHandler = () => {
@@ -29,8 +41,6 @@ function ItemCarousel() {
     const prevCarouselHandler = () => {
         carouselControl.current.slickPrev();
     }
-
-    console.log(DUMMY_ITEMS)
 
     return (
         <section>
@@ -44,14 +54,25 @@ function ItemCarousel() {
                     <ArrowBtn onClick={nextCarouselHandler} ><MdArrowForwardIos /></ArrowBtn>
                 </div>
             </div>
-            <Slider ref={carouselControl} {...settings}>
-                {DUMMY_ITEMS.map((item =>
-                    <div className={classes.card}>
-                        <ItemCard key={item.id} id={item.id} title={item.nama} cost={item.harga} />
-                    </div>
-                ))}
+            {isLoading && (
+                <div className={classes.skeletonCarousel}>
+                    <ItemCardLoading />
+                    <ItemCardLoading />
+                    <ItemCardLoading />
+                    <ItemCardLoading />
+                    <ItemCardLoading />
+                </div>
+            )}
+            {!isLoading && (
+                <Slider ref={carouselControl} {...settings}>
+                    {list.map((item =>
+                        <div className={classes.card}>
+                            <ItemCard key={item.id} id={item.id} title={item.nama} cost={item.harga} />
+                        </div>
+                    ))}
 
-            </Slider>
+                </Slider>
+            )}
 
         </section >
     )

@@ -1,0 +1,34 @@
+.backdrop {
+    width: 100%;
+    height: 70rem;
+    background-color: #FFF5F0;
+    border-radius: 70px;
+    margin-block: 13rem;
+    z-index: 1;
+    position: absolute;
+}
+
+.container {
+    width: 100%;
+    padding-inline: min(10%, 10rem);
+    z-index: 2;
+    position: relative;
+    padding-top: 10rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.firstRow {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.banner {
+    width: 70%;
+    border-radius: 20px;
+    padding: 1rem;
+    padding-right: min(70%, 30rem);
+    background-image: url('../../public/images/Banner-1.png');
+    background-size: cover;
+}

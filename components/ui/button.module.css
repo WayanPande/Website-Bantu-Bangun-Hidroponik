@@ -1,0 +1,31 @@
+.btn {
+    background-color: brown;
+}
+
+.btn:hover {
+    background-color: brown;
+}
+
+.arrow {
+    border-radius: 20px;
+    padding-block: .8em;
+    padding-inline: 1.3em;
+    font-size: 1.2rem;
+}
+
+.arrow:hover {
+    background-color: #3071E7;
+    color: #fff;
+}
+
+.cart {
+    font-size: 1.4rem;
+    padding-block: .5em;
+    padding-inline: 1.2em;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.cart:hover {
+    background-color: #3071E7;
+}

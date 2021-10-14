@@ -1,0 +1,49 @@
+.header {
+    height: 5rem;
+    display: flex;
+    padding-block: 1rem;
+    padding-inline: min(10%, 10rem);
+    position: fixed;
+    background-color: #fff;
+    width: 100%;
+    z-index: 3;
+    justify-content: space-between;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block: .3rem;
+    width: min(80%, 40rem);
+}
+
+.searchInput {
+    height: 100%;
+    width: min(90%, 30rem);
+    left: 1.5rem;
+}
+
+.btn {
+    height: 100%;
+    border-radius: 10px !important;
+    font-size: 1.3rem !important;
+    background-color: #4c4bb5;
+}
+
+.registerBtn {
+    background-color: #4c4bb5;
+}
+
+.badge {
+    display: flex;
+    padding-block: .3rem;
+    font-size: 1rem;
+}
+
+.LoginRegisterBtn {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 15rem;
+}

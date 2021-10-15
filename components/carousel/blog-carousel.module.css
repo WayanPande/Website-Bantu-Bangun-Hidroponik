@@ -1,0 +1,25 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.progress {
+    width: 40%;
+}
+
+.ArrowBtn {
+    display: flex;
+    gap: 1rem;
+}
+
+.card {
+    margin-right: 2rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}

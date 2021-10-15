@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import CategoryCard from "../card/category-card";
+import BlogCarousel from "../carousel/blog-carousel";
 import ItemCarousel from "../carousel/item-carousel";
 import classes from './home.module.css';
 
@@ -18,6 +19,8 @@ function Home(props) {
                 </section>
                 <ItemCarousel key='Popular Product' title='Popular Product' type='popular' />
                 <ItemCarousel key='More than just low prices' title='More than just low prices' type='low-price' />
+                <div className={classes.bannerFull}></div>
+                <BlogCarousel />
             </div>
         </Fragment>
     );

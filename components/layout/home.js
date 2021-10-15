@@ -4,6 +4,7 @@ import ItemCarousel from "../carousel/item-carousel";
 import classes from './home.module.css';
 
 function Home(props) {
+
     return (
         <Fragment>
             <div className={classes.backdrop}></div>
@@ -15,7 +16,8 @@ function Home(props) {
                         <p>website yang menyediakan informasi mengenai alat dan bahan untuk hidroponik serta tempat penjualan alat dan bahan untuk melakukan penanaman dengan cara hidroponik</p>
                     </div>
                 </section>
-                <ItemCarousel />
+                <ItemCarousel key='Popular Product' title='Popular Product' type='popular' />
+                <ItemCarousel key='More than just low prices' title='More than just low prices' type='low-price' />
             </div>
         </Fragment>
     );

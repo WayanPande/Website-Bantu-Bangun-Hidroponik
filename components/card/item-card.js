@@ -4,10 +4,12 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Skeleton } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cart-slice';
+import { formatMoneyOne } from '../../helpers/moneyFormat-util';
 
 function ItemCard(props) {
 
     const dispatch = useDispatch();
+    const cost = formatMoneyOne(props.cost);
 
     const addToCart = () => {
         dispatch(cartActions.addItem());
@@ -22,7 +24,7 @@ function ItemCard(props) {
                 <p className={classes.title}>{props.title}</p>
             </div>
             <div className={classes.footer}>
-                <p>Rp {props.cost}</p>
+                <p>Rp {cost}</p>
                 <CardCartBtn onClick={addToCart}>
                     <AiOutlineShoppingCart />
                 </CardCartBtn>

@@ -5,17 +5,25 @@ import ItemCard, { ItemCardLoading } from '../card/item-card';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllItems } from '../../store/product-actions';
 
-function ItemCarousel() {
+function ItemCarousel(props) {
 
     const carouselControl = useRef();
-    const popularItem = useSelector(state => state.product.items);
+    const productItems = useSelector(state => state.product.items);
     const isLoading = useSelector(state => state.ui.isLoading);
+    const carouselType = props.type;
+    let list;
 
-    const list = popularItem.filter(item => item.stok < 30);
+    if (carouselType === 'popular') {
+        list = productItems.filter(item => item.stok < 30);
+    }
+
+    if (carouselType === 'low-price') {
+        list = productItems.filter(item => item.harga < 10000);
+    }
 
     const dispatch = useDispatch();
 
@@ -46,7 +54,7 @@ function ItemCarousel() {
         <section>
             <div className={classes.header}>
                 <div className={classes.title}>
-                    <h2>Popular Product</h2>
+                    <h2>{props.title}</h2>
                     <p>See all <MdKeyboardArrowRight /></p>
                 </div>
                 <div className={classes.ArrowBtn}>

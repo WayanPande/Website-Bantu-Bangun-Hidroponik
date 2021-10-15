@@ -6,25 +6,110 @@
     height: 100vh;
     z-index: 20;
     background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal {
     position: fixed;
-    top: 20vh;
-    left: 5%;
     width: 90%;
+    height: 90%;
     background-color: white;
-    padding: 1rem;
+    padding: 2rem;
     border-radius: 14px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     z-index: 30;
     animation: slide-down 300ms ease-out forwards;
+    display: flex;
+    gap: 2rem;
 }
+
+.imgWrapper {
+    width: 40%;
+    height: fit-content;
+}
+
+.imgWrapper img {
+    width: 100%;
+    border-radius: 20px;
+    transition: all .5s;
+}
+
+.chipWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: .3rem;
+    flex-wrap: wrap;
+}
+
+.closeIcon {
+    cursor: pointer;
+    width: 10%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chip {
+    background-color: #F6F7FB;
+    color: #3071E7;
+    font-weight: 600;
+}
+
+.content {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.content span {
+    color: #e2e2e8;
+    font-size: .8rem;
+    font-weight: lighter;
+}
+
+.contentWrapper {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.description {
+    margin-top: 2rem;
+    overflow: auto;
+    height: 60%;
+    padding-right: 1rem;
+    font-size: .8rem;
+}
+
+/* width */
+.description::-webkit-scrollbar {
+    width: .3rem;
+}
+
+/* Track */
+.description::-webkit-scrollbar-track {
+    background: #f6f7fb;
+}
+
+/* Handle */
+.description::-webkit-scrollbar-thumb {
+    background: #3071E7;
+}
+
+/* Handle on hover */
+.description::-webkit-scrollbar-thumb:hover {
+    background: #4c4bb5;
+}
+
 
 @media (min-width: 768px) {
     .modal {
-        width: 40rem;
-        left: calc(50% - 20rem);
+        width: 50rem;
     }
 }
 

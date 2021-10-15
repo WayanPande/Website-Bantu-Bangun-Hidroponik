@@ -9,7 +9,7 @@ function Home(props) {
 
     return (
         <Fragment>
-            {/* <Modal /> */}
+            <Modal />
             <div className={classes.backdrop}></div>
             <div className={classes.container}>
                 <section className={classes.firstRow}>

@@ -1,15 +1,39 @@
 import { LinearProgress } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
+import { getAllBlog } from '../../store/blog-actions';
 import BlogCard from '../card/blog-card';
 import { ArrowBtn } from '../ui/button';
 import classes from './blog-carousel.module.css';
 
 function BlogCarousel(props) {
 
-    const [progress, setProgress] = useState(0);
+    const [progress, setProgress] = useState(10);
     const carouselControl = useRef();
+    const dispatch = useDispatch();
+    const blogPosts = useSelector(state => state.blog.items);
+    let counter = 0;
+    let OutputBLogPosts = [];
+
+    const totalPost = blogPosts.filter(item => true).length;
+
+    blogPosts.forEach(item => {
+        if (counter === 10) {
+            return
+        } else {
+            OutputBLogPosts.push(item);
+            counter++;
+        }
+    })
+
+    console.log(OutputBLogPosts)
+
+
+    useEffect(() => {
+        dispatch(getAllBlog());
+    }, [])
 
     var settings = {
         infinite: true,
@@ -26,8 +50,8 @@ function BlogCarousel(props) {
     const nextCarouselHandler = () => {
         carouselControl.current.slickNext();
         setProgress((prevState) => {
-            if (prevState === 100) {
-                return 0;
+            if (prevState >= 100) {
+                return 10;
             }
 
             return prevState + 10
@@ -37,8 +61,8 @@ function BlogCarousel(props) {
     const prevCarouselHandler = () => {
         carouselControl.current.slickPrev();
         setProgress((prevState) => {
-            if (prevState === 0) {
-                return 0;
+            if (prevState <= 10) {
+                return 100;
             }
 
             return prevState - 10
@@ -52,27 +76,11 @@ function BlogCarousel(props) {
             </div>
             <div className={classes.slider}>
                 <Slider ref={carouselControl} {...settings}>
-                    <div className={classes.card}>
-                        <BlogCard img='/images/informasi/i0001.jpg' />
-                    </div>
-                    <div className={classes.card}>
-                        <BlogCard img='/images/informasi/i0002.jpg' />
-                    </div>
-                    <div className={classes.card}>
-                        <BlogCard img='/images/informasi/i0003.jpg' />
-                    </div>
-                    <div className={classes.card}>
-                        <BlogCard img='/images/informasi/i0004.jpg' />
-                    </div>
-                    <div className={classes.card}>
-                        <BlogCard img='/images/informasi/i0005.jpg' />
-                    </div>
-                    <div className={classes.card}>
-                        <BlogCard img='/images/informasi/i0006.jpg' />
-                    </div>
-                    <div className={classes.card}>
-                        <BlogCard img='/images/informasi/i0007.jpg' />
-                    </div>
+                    {OutputBLogPosts.map((item =>
+                        <div className={classes.card}>
+                            <BlogCard id={item.id} description={item.deskripsi} title={item.judul} category={item.kategori} />
+                        </div>
+                    ))}
                 </Slider>
             </div>
             <div className={classes.footer}>
@@ -80,6 +88,7 @@ function BlogCarousel(props) {
                     <LinearProgress variant="determinate" value={progress} />
                 </div>
                 <div className={classes.ArrowBtn}>
+                    <span>{progress / 10}/10</span>
                     <ArrowBtn onClick={prevCarouselHandler} ><MdArrowBackIosNew /></ArrowBtn>
                     <ArrowBtn onClick={nextCarouselHandler} ><MdArrowForwardIos /></ArrowBtn>
                 </div>

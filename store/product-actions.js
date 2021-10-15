@@ -1,11 +1,11 @@
-import DUMMY_ITEMS from "../dummy-item-data"
+import DUMMY_ITEMS, { DUMMY_BLOG } from "../dummy-item-data"
 import { productActions } from "./product-slice"
 import { uiActions } from "./ui-slice";
 
 export const inputItems = () => {
     return async (dispatch) => {
 
-        const reqBody = { items: DUMMY_ITEMS };
+        const reqBody = { items: DUMMY_BLOG };
 
         const response = await fetch('/api/products', {
             method: 'POST',

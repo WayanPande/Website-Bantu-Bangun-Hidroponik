@@ -47,6 +47,12 @@
     height: 13rem;
 }
 
+.content h2:hover {
+    text-underline-position: under;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .contentWrapper {
     max-width: 20rem;
     padding: 1rem;

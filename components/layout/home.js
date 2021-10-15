@@ -3,11 +3,13 @@ import CategoryCard from "../card/category-card";
 import BlogCarousel from "../carousel/blog-carousel";
 import ItemCarousel from "../carousel/item-carousel";
 import classes from './home.module.css';
+import Modal from '../ui/Modal';
 
 function Home(props) {
 
     return (
         <Fragment>
+            {/* <Modal /> */}
             <div className={classes.backdrop}></div>
             <div className={classes.container}>
                 <section className={classes.firstRow}>

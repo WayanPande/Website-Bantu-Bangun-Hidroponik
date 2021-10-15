@@ -17,7 +17,7 @@ async function handler(req, res) {
         console.log(products)
 
         try {
-            await insertDocument(client, 'product', products)
+            await insertDocument(client, 'blog', products)
             client.close();
         } catch (error) {
             res.status(500).json({ message: 'Inserting data failed' });

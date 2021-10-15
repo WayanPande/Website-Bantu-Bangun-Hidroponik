@@ -12,6 +12,12 @@
 .ArrowBtn {
     display: flex;
     gap: 1rem;
+    align-items: center;
+}
+
+.ArrowBtn span {
+    font-size: .8rem;
+    margin-right: 1rem;
 }
 
 .card {

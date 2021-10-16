@@ -5,36 +5,34 @@ import ItemCarousel from "../carousel/item-carousel";
 import classes from './home.module.css';
 import Modal from '../ui/Modal';
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 function Home(props) {
 
-    const [showModal, setShowModal] = useState(false);
-    const [itemId, setItemId] = useState('');
     const router = useRouter();
+    const slug = useSelector(state => state.modal.slug);
+    const showedModal = useSelector(state => state.modal.showModal);
 
     useEffect(() => {
-        if (!showModal) {
+        console.log(router.query)
+        if (router.query.blog) {
+            router.push('/?blog=' + router.query.blog, undefined, { shallow: true });
+        }
+    }, []);
+
+    useEffect(() => {
+        if (slug !== '') {
+            router.push('/?blog=' + slug, '/blog?s=' + slug, { shallow: true });
+        } else {
             router.push('/', undefined, { shallow: true });
         }
-    }, [showModal]);
 
+    }, [slug]);
 
-    const showModalHandler = (id) => {
-
-        if (id) {
-
-            setItemId(id);
-        } else {
-            console.log(itemId)
-            setItemId((prevState) => prevState);
-        }
-
-        setShowModal((prevState) => !prevState);
-    }
 
     return (
         <Fragment>
-            {showModal && <Modal onClose={showModalHandler} id={itemId} />}
+            {showedModal && <Modal />}
             <div className={classes.backdrop}></div>
             <div className={classes.container}>
                 <section className={classes.firstRow}>
@@ -47,7 +45,7 @@ function Home(props) {
                 <ItemCarousel key='Popular Product' title='Popular Product' type='popular' />
                 <ItemCarousel key='More than just low prices' title='More than just low prices' type='low-price' />
                 <div className={classes.bannerFull}></div>
-                <BlogCarousel onClick={showModalHandler} />
+                <BlogCarousel />
             </div>
         </Fragment>
     );

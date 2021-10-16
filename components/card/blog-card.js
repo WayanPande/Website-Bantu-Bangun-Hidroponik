@@ -3,6 +3,8 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import classes from './blog-card.module.css';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { modalActions } from '../../store/modal-slice';
 
 function BlogCard(props) {
 
@@ -12,6 +14,7 @@ function BlogCard(props) {
     const [width, setWidth] = useState();
     const [height, setHeight] = useState();
     const imgRef = useRef();
+    const dispatch = useDispatch();
     const linkUrl = props.title.replace(/[^a-zA-Z0-9]/g, '-').replace(/--/g, '-').toLowerCase();
     let containerClass;
     let contentWrapperClass;
@@ -37,7 +40,11 @@ function BlogCard(props) {
     }
 
     const linkClickHandler = () => {
-        props.onClick(linkUrl, props.id);
+        dispatch(modalActions.setModal({
+            slug: linkUrl
+        }))
+        // props.onClick(linkUrl, props.id);
+
     }
 
     return (

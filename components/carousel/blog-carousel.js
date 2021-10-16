@@ -12,8 +12,6 @@ import classes from './blog-carousel.module.css';
 function BlogCarousel(props) {
 
     const [progress, setProgress] = useState(10);
-    const [slug, setSlug] = useState('');
-    const [id, setId] = useState();
     const carouselControl = useRef();
     const dispatch = useDispatch();
     const router = useRouter();
@@ -31,13 +29,6 @@ function BlogCarousel(props) {
             counter++;
         }
     })
-
-    useEffect(() => {
-        if (slug !== '') {
-            router.push('/?blog=' + slug, undefined, { shallow: true })
-            props.onClick(id);
-        }
-    }, [slug, id])
 
 
     useEffect(() => {
@@ -78,13 +69,6 @@ function BlogCarousel(props) {
         });
     }
 
-    const blogUrl = (slug, id) => {
-        // console.log('ID from: ' + id, 'SLug: ' + slug)
-
-        setSlug(slug);
-        setId(id);
-    }
-
     return (
         <div className={classes.container}>
             <div>
@@ -94,7 +78,7 @@ function BlogCarousel(props) {
                 <Slider ref={carouselControl} {...settings}>
                     {OutputBLogPosts.map((item =>
                         <div className={classes.card}>
-                            <BlogCard onClick={blogUrl} id={item.id} description={item.deskripsi} title={item.judul} category={item.kategori} />
+                            <BlogCard key={item.id} id={item.id} description={item.deskripsi} title={item.judul} category={item.kategori} />
                         </div>
                     ))}
                 </Slider>
@@ -105,8 +89,8 @@ function BlogCarousel(props) {
                 </div>
                 <div className={classes.ArrowBtn}>
                     <span>{progress / 10}/10</span>
-                    <ArrowBtn onClick={prevCarouselHandler} ><MdArrowBackIosNew /></ArrowBtn>
-                    <ArrowBtn onClick={nextCarouselHandler} ><MdArrowForwardIos /></ArrowBtn>
+                    <ArrowBtn key={1} onClick={prevCarouselHandler} ><MdArrowBackIosNew /></ArrowBtn>
+                    <ArrowBtn key={2} onClick={nextCarouselHandler} ><MdArrowForwardIos /></ArrowBtn>
                 </div>
             </div>
         </div>

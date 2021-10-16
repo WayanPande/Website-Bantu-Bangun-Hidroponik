@@ -3,7 +3,8 @@ import { Fragment, useEffect } from 'react';
 import { GrClose } from 'react-icons/gr';
 import classes from './Modal.module.css';
 import ReactDOM from 'react-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalActions } from '../../store/modal-slice';
 
 
 const Modal = props => {
@@ -11,15 +12,26 @@ const Modal = props => {
     const portalElement = document.getElementById('overlays');
 
     const blogPosts = useSelector(state => state.blog.items);
+    const blogId = useSelector(state => state.modal.blogId);
+    let slug = useSelector(state => state.modal.slug);
+    const dispatch = useDispatch();
 
-    let id = props.id;
+    slug = slug.replace(/-/g, '');
 
-    let post = blogPosts.filter(item => item.id === id);
+    let post = blogPosts.filter(item => {
+
+        const temp = item.judul.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+        return temp === slug;
+
+    });
 
     post = post[0];
 
     const modalCloseHandler = () => {
-        props.onClose(null);
+        dispatch(modalActions.setModal({
+            slug: ''
+        }));
     }
 
     return (

@@ -65,25 +65,25 @@ function ItemCarousel(props) {
             {isLoading && (
                 <Slider ref={carouselControl} {...settings}>
                     <div className={classes.card}>
-                        <ItemCardLoading />
+                        <ItemCardLoading key={1} />
                     </div>
                     <div className={classes.card}>
-                        <ItemCardLoading />
+                        <ItemCardLoading key={2} />
                     </div>
                     <div className={classes.card}>
-                        <ItemCardLoading />
+                        <ItemCardLoading key={3} />
                     </div>
                     <div className={classes.card}>
-                        <ItemCardLoading />
+                        <ItemCardLoading key={4} />
                     </div>
                     <div className={classes.card}>
-                        <ItemCardLoading />
+                        <ItemCardLoading key={5} />
                     </div>
                     <div className={classes.card}>
-                        <ItemCardLoading />
+                        <ItemCardLoading key={6} />
                     </div>
                     <div className={classes.card}>
-                        <ItemCardLoading />
+                        <ItemCardLoading key={7} />
                     </div>
                 </Slider>
             )}

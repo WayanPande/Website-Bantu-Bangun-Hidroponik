@@ -2,6 +2,7 @@ import { Chip } from '@mui/material';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import classes from './blog-card.module.css';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 
 function BlogCard(props) {
 
@@ -11,6 +12,7 @@ function BlogCard(props) {
     const [width, setWidth] = useState();
     const [height, setHeight] = useState();
     const imgRef = useRef();
+    const linkUrl = props.title.replace(/[^a-zA-Z0-9]/g, '-').replace(/--/g, '-').toLowerCase();
     let containerClass;
     let contentWrapperClass;
     let footerClass;
@@ -34,6 +36,10 @@ function BlogCard(props) {
         footerClass = `${classes.footer}`;
     }
 
+    const linkClickHandler = () => {
+        props.onClick(linkUrl, props.id);
+    }
+
     return (
         <div className={containerClass}>
             <div className={classes.imgWrapper}>
@@ -44,7 +50,9 @@ function BlogCard(props) {
                     <Chip className={classes.chip} label={props.category} />
                 </div>
                 <div className={classes.content}>
-                    <h2>{props.title}</h2>
+
+                    <h2 onClick={linkClickHandler} >{props.title}</h2>
+
                     <p>{truncate(description)}</p>
                 </div>
                 <div className={footerClass}>

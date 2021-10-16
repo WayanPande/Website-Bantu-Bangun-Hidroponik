@@ -6,6 +6,11 @@
     height: 100vh;
     z-index: 20;
     background-color: rgba(0, 0, 0, 0.75);
+
+}
+
+.modalWrapper {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;

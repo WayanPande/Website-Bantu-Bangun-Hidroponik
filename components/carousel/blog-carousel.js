@@ -1,4 +1,5 @@
 import { LinearProgress } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,8 +12,11 @@ import classes from './blog-carousel.module.css';
 function BlogCarousel(props) {
 
     const [progress, setProgress] = useState(10);
+    const [slug, setSlug] = useState('');
+    const [id, setId] = useState();
     const carouselControl = useRef();
     const dispatch = useDispatch();
+    const router = useRouter();
     const blogPosts = useSelector(state => state.blog.items);
     let counter = 0;
     let OutputBLogPosts = [];
@@ -28,7 +32,12 @@ function BlogCarousel(props) {
         }
     })
 
-    console.log(OutputBLogPosts)
+    useEffect(() => {
+        if (slug !== '') {
+            router.push('/?blog=' + slug, undefined, { shallow: true })
+            props.onClick(id);
+        }
+    }, [slug, id])
 
 
     useEffect(() => {
@@ -69,6 +78,13 @@ function BlogCarousel(props) {
         });
     }
 
+    const blogUrl = (slug, id) => {
+        // console.log('ID from: ' + id, 'SLug: ' + slug)
+
+        setSlug(slug);
+        setId(id);
+    }
+
     return (
         <div className={classes.container}>
             <div>
@@ -78,7 +94,7 @@ function BlogCarousel(props) {
                 <Slider ref={carouselControl} {...settings}>
                     {OutputBLogPosts.map((item =>
                         <div className={classes.card}>
-                            <BlogCard id={item.id} description={item.deskripsi} title={item.judul} category={item.kategori} />
+                            <BlogCard onClick={blogUrl} id={item.id} description={item.deskripsi} title={item.judul} category={item.kategori} />
                         </div>
                     ))}
                 </Slider>

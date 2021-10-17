@@ -1,5 +1,6 @@
-import { Checkbox, Chip, FormControl, InputLabel, LinearProgress, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
+import { Checkbox, Chip, FormControl, InputAdornment, InputLabel, LinearProgress, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
 import { IoReloadOutline } from 'react-icons/io5';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +23,7 @@ function BlogCarousel(props) {
 
     const [progress, setProgress] = useState(1);
     const carouselControl = useRef();
+    const searchInputRef = useRef();
     const dispatch = useDispatch();
     const allBlogPosts = useSelector(state => state.blog.items);
     const [blogPosts, setBlogPosts] = useState([]);
@@ -30,10 +32,6 @@ function BlogCarousel(props) {
     const MIN = 1;
     const MAX = totalPost;
     const normalize = value => ((value - MIN) * 100) / (MAX - MIN);
-
-    useEffect(() => {
-        console.log(blogPosts)
-    }, [blogPosts])
 
     useEffect(() => {
         dispatch(getAllBlog());
@@ -113,11 +111,19 @@ function BlogCarousel(props) {
         setTags([]);
     }
 
+    const searchInputHandler = (e) => {
+        if (e.key === 'Enter') {
+            setBlogPosts(
+                allBlogPosts.filter(item => item.judul.toLowerCase().includes(searchInputRef.current.value.toLowerCase()))
+            )
+            // console.log(searchInputRef.current.value)
+        }
+    }
+
     return (
         <div className={classes.container}>
             <div className={classes.header}>
                 <h1>Our blog</h1>
-
                 <FormControl className={classes.input} >
                     <Select
                         displayEmpty
@@ -135,7 +141,18 @@ function BlogCarousel(props) {
                         ))}
                     </Select>
                 </FormControl>
-
+                <OutlinedInput
+                    className={classes.searchInput}
+                    placeholder="Search blog..."
+                    id="outlined-adornment-weight"
+                    onKeyPress={searchInputHandler}
+                    endAdornment={<InputAdornment sx={{ cursor: 'pointer' }} position="end"><AiOutlineSearch onClick={searchInputHandler} /></InputAdornment>}
+                    aria-describedby="outlined-weight-helper-text"
+                    inputProps={{
+                        'aria-label': 'weight',
+                    }}
+                    inputRef={searchInputRef}
+                />
             </div>
             {tags.length > 0 && (
                 <div className={classes.chipContainer}>
@@ -154,7 +171,7 @@ function BlogCarousel(props) {
                         </div>
                     ))}
                 </Slider>
-                {blogPosts.length < 1 && <p>No data</p>}
+                {blogPosts.length < 1 && <p style={{ textAlign: 'center' }} >No data</p>}
             </div>
             {totalPost >= 2 && (
                 <div className={classes.footer}>

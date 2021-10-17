@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 export async function connectDatabase() {
-    const client = await MongoClient.connect('mongodb+srv://wayan:12345@cluster0.irn4k.mongodb.net/hidroponik?retryWrites=true&w=majority');
+    const client = await MongoClient.connect('mongodb://localhost:27017/hidroponik');
 
     return client;
 }

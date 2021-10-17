@@ -30,3 +30,7 @@ a {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
 }
+
+.MuiSelect-root {
+  border-radius: 20px;
+}

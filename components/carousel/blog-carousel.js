@@ -1,5 +1,6 @@
 import { Checkbox, Chip, FormControl, InputLabel, LinearProgress, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
+import { IoReloadOutline } from 'react-icons/io5';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
@@ -7,6 +8,15 @@ import { getAllBlog } from '../../store/blog-actions';
 import BlogCard from '../card/blog-card';
 import { ArrowBtn } from '../ui/button';
 import classes from './blog-carousel.module.css';
+
+
+const categories = [
+    'Media Tanam',
+    'Bibit Tanaman',
+    'Pupuk',
+    'Alat Bantu',
+    'Wadah Tanam',
+];
 
 function BlogCarousel(props) {
 
@@ -21,6 +31,9 @@ function BlogCarousel(props) {
     const MAX = totalPost;
     const normalize = value => ((value - MIN) * 100) / (MAX - MIN);
 
+    useEffect(() => {
+        console.log(blogPosts)
+    }, [blogPosts])
 
     useEffect(() => {
         dispatch(getAllBlog());
@@ -51,7 +64,7 @@ function BlogCarousel(props) {
     var settings = {
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 1,
         slidesToScroll: 1,
         adaptiveHeight: true,
         variableWidth: true,
@@ -82,29 +95,23 @@ function BlogCarousel(props) {
         carouselControl.current.slickPrev();
     }
 
-    const categories = [
-        'Media Tanam',
-        'Bibit Tanaman',
-        'Pupuk',
-        'Alat Bantu',
-        'Wadah Tanam',
-    ];
-
     const handleChange = (event) => {
         const {
             target: { value },
         } = event;
-        setTags(
-            // On autofill we get a the stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
+        setTags(value);
     };
 
     const tagRemoveHandler = (e) => () => {
-        // setTags((prevState) => {
-        //     prevState.filter(item => item !== e.toLowerCase())
-        // })
+
+        setTags((prevState) => {
+            return prevState.filter(item => item !== e)
+        })
     };
+
+    const removeAllTags = () => {
+        setTags([]);
+    }
 
     return (
         <div className={classes.container}>
@@ -122,7 +129,7 @@ function BlogCarousel(props) {
                     >
                         {categories.map((name) => (
                             <MenuItem key={name} value={name}>
-                                <Checkbox checked={tags.indexOf(name) > -1} />
+                                <Checkbox checked={tags.includes(name)} />
                                 <ListItemText primary={name} />
                             </MenuItem>
                         ))}
@@ -130,12 +137,15 @@ function BlogCarousel(props) {
                 </FormControl>
 
             </div>
-            <div className={classes.chipContainer}>
-                <span>Tags:</span>
-                {tags.map((item =>
-                    <Chip className={classes.chip} label={item} onDelete={tagRemoveHandler(item)} />
-                ))}
-            </div>
+            {tags.length > 0 && (
+                <div className={classes.chipContainer}>
+                    <span className={classes.span}>Tags:</span>
+                    {tags.map((item =>
+                        <Chip className={classes.chip} label={item} onDelete={tagRemoveHandler(item)} />
+                    ))}
+                    {tags.length > 1 && <Chip className={classes.chipDeleteAll} label={'delete all filters'} onClick={removeAllTags} onDelete={removeAllTags} deleteIcon={<IoReloadOutline />} />}
+                </div>
+            )}
             <div className={classes.slider}>
                 <Slider ref={carouselControl} {...settings}>
                     {blogPosts.map((item =>
@@ -144,8 +154,9 @@ function BlogCarousel(props) {
                         </div>
                     ))}
                 </Slider>
+                {blogPosts.length < 1 && <p>No data</p>}
             </div>
-            {totalPost >= 5 && (
+            {totalPost >= 2 && (
                 <div className={classes.footer}>
                     <div className={classes.progress}>
                         <LinearProgress variant="determinate" value={normalize(progress)} />

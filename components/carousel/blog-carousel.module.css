@@ -29,3 +29,19 @@
     flex-direction: column;
     gap: 1.5rem;
 }
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input {
+    width: 20%;
+}
+
+.chip {
+    background-color: #F6F7FB;
+    color: #3071E7;
+    font-weight: 600;
+}

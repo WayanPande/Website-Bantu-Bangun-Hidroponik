@@ -1,4 +1,4 @@
-import { LinearProgress } from '@mui/material';
+import { Checkbox, Chip, FormControl, InputLabel, LinearProgress, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,8 +13,9 @@ function BlogCarousel(props) {
     const [progress, setProgress] = useState(1);
     const carouselControl = useRef();
     const dispatch = useDispatch();
-    const blogPosts = useSelector(state => state.blog.items);
-
+    const allBlogPosts = useSelector(state => state.blog.items);
+    const [blogPosts, setBlogPosts] = useState([]);
+    const [tags, setTags] = useState([]);
     const totalPost = blogPosts.filter(item => true).length;
     const MIN = 1;
     const MAX = totalPost;
@@ -23,7 +24,29 @@ function BlogCarousel(props) {
 
     useEffect(() => {
         dispatch(getAllBlog());
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        setBlogPosts(allBlogPosts);
+    }, [allBlogPosts])
+
+    useEffect(() => {
+        if (tags.length >= 1) {
+            setBlogPosts(
+                allBlogPosts.filter(item => {
+                    for (let category of tags) {
+                        if (item.kategori === category.toLowerCase()) {
+                            return true
+                        }
+                    }
+                    return false
+                })
+            );
+        } else {
+            setBlogPosts(allBlogPosts);
+        }
+        setProgress(1);
+    }, [tags])
 
     var settings = {
         infinite: true,
@@ -59,10 +82,59 @@ function BlogCarousel(props) {
         carouselControl.current.slickPrev();
     }
 
+    const categories = [
+        'Media Tanam',
+        'Bibit Tanaman',
+        'Pupuk',
+        'Alat Bantu',
+        'Wadah Tanam',
+    ];
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setTags(
+            // On autofill we get a the stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
+    const tagRemoveHandler = (e) => () => {
+        // setTags((prevState) => {
+        //     prevState.filter(item => item !== e.toLowerCase())
+        // })
+    };
+
     return (
         <div className={classes.container}>
-            <div>
+            <div className={classes.header}>
                 <h1>Our blog</h1>
+
+                <FormControl className={classes.input} >
+                    <Select
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}
+                        multiple
+                        value={tags}
+                        onChange={handleChange}
+                        renderValue={(selected) => 'Tags'}
+                    >
+                        {categories.map((name) => (
+                            <MenuItem key={name} value={name}>
+                                <Checkbox checked={tags.indexOf(name) > -1} />
+                                <ListItemText primary={name} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+            </div>
+            <div className={classes.chipContainer}>
+                <span>Tags:</span>
+                {tags.map((item =>
+                    <Chip className={classes.chip} label={item} onDelete={tagRemoveHandler(item)} />
+                ))}
             </div>
             <div className={classes.slider}>
                 <Slider ref={carouselControl} {...settings}>
@@ -73,16 +145,18 @@ function BlogCarousel(props) {
                     ))}
                 </Slider>
             </div>
-            <div className={classes.footer}>
-                <div className={classes.progress}>
-                    <LinearProgress variant="determinate" value={normalize(progress)} />
+            {totalPost >= 5 && (
+                <div className={classes.footer}>
+                    <div className={classes.progress}>
+                        <LinearProgress variant="determinate" value={normalize(progress)} />
+                    </div>
+                    <div className={classes.ArrowBtn}>
+                        <span>{progress}/{totalPost}</span>
+                        <ArrowBtn key={1} onClick={prevCarouselHandler} ><MdArrowBackIosNew /></ArrowBtn>
+                        <ArrowBtn key={2} onClick={nextCarouselHandler} ><MdArrowForwardIos /></ArrowBtn>
+                    </div>
                 </div>
-                <div className={classes.ArrowBtn}>
-                    <span>{progress}/{totalPost}</span>
-                    <ArrowBtn key={1} onClick={prevCarouselHandler} ><MdArrowBackIosNew /></ArrowBtn>
-                    <ArrowBtn key={2} onClick={nextCarouselHandler} ><MdArrowForwardIos /></ArrowBtn>
-                </div>
-            </div>
+            )}
         </div>
     )
 }

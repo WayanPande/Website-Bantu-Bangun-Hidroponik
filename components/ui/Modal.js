@@ -46,7 +46,7 @@ const Modal = props => {
                         <div className={classes.contentWrapper}>
                             <div className={classes.chipWrapper}>
                                 <Chip className={classes.chip} label={post.kategori} />
-                                <div className={classes.closeIcon}>
+                                <div onClick={modalCloseHandler} className={classes.closeIcon}>
                                     <GrClose />
                                 </div>
                             </div>

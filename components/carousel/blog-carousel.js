@@ -1,5 +1,4 @@
 import { LinearProgress } from '@mui/material';
-import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,24 +10,15 @@ import classes from './blog-carousel.module.css';
 
 function BlogCarousel(props) {
 
-    const [progress, setProgress] = useState(10);
+    const [progress, setProgress] = useState(1);
     const carouselControl = useRef();
     const dispatch = useDispatch();
-    const router = useRouter();
     const blogPosts = useSelector(state => state.blog.items);
-    let counter = 0;
-    let OutputBLogPosts = [];
 
     const totalPost = blogPosts.filter(item => true).length;
-
-    blogPosts.forEach(item => {
-        if (counter === 10) {
-            return
-        } else {
-            OutputBLogPosts.push(item);
-            counter++;
-        }
-    })
+    const MIN = 1;
+    const MAX = totalPost;
+    const normalize = value => ((value - MIN) * 100) / (MAX - MIN);
 
 
     useEffect(() => {
@@ -48,25 +38,25 @@ function BlogCarousel(props) {
 
 
     const nextCarouselHandler = () => {
-        carouselControl.current.slickNext();
         setProgress((prevState) => {
-            if (prevState >= 100) {
-                return 10;
+            if (prevState === MAX) {
+                return MIN;
             }
 
-            return prevState + 10
+            return Math.min(prevState + 1, MAX);
         });
+        carouselControl.current.slickNext();
     }
 
     const prevCarouselHandler = () => {
-        carouselControl.current.slickPrev();
         setProgress((prevState) => {
-            if (prevState <= 10) {
-                return 100;
+            if (prevState === 1) {
+                return MAX;
             }
 
-            return prevState - 10
+            return Math.max(prevState - 1, MIN);
         });
+        carouselControl.current.slickPrev();
     }
 
     return (
@@ -76,7 +66,7 @@ function BlogCarousel(props) {
             </div>
             <div className={classes.slider}>
                 <Slider ref={carouselControl} {...settings}>
-                    {OutputBLogPosts.map((item =>
+                    {blogPosts.map((item =>
                         <div className={classes.card}>
                             <BlogCard key={item.id} id={item.id} description={item.deskripsi} title={item.judul} category={item.kategori} />
                         </div>
@@ -85,10 +75,10 @@ function BlogCarousel(props) {
             </div>
             <div className={classes.footer}>
                 <div className={classes.progress}>
-                    <LinearProgress variant="determinate" value={progress} />
+                    <LinearProgress variant="determinate" value={normalize(progress)} />
                 </div>
                 <div className={classes.ArrowBtn}>
-                    <span>{progress / 10}/10</span>
+                    <span>{progress}/{totalPost}</span>
                     <ArrowBtn key={1} onClick={prevCarouselHandler} ><MdArrowBackIosNew /></ArrowBtn>
                     <ArrowBtn key={2} onClick={nextCarouselHandler} ><MdArrowForwardIos /></ArrowBtn>
                 </div>

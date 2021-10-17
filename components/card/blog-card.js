@@ -64,7 +64,7 @@ function BlogCard(props) {
                 </div>
                 <div className={footerClass}>
                     <span>15.10.2021</span>
-                    <div className={classes.link}>
+                    <div onClick={linkClickHandler} className={classes.link}>
                         <span>More</span>
                         <MdKeyboardArrowRight />
                     </div>

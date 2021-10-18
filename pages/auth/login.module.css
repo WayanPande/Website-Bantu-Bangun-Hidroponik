@@ -1,0 +1,73 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    width: min(90%, 27rem);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.btn {
+    height: 3rem;
+    text-transform: none;
+    font-weight: 500;
+    font-size: 1rem;
+    font-family: 'Poppins';
+    border-radius: 10px;
+    background-color: #3071E7;
+}
+
+.header h2,
+.header p {
+    margin: 0;
+    padding: 0;
+}
+
+.header p {
+    color: #637885;
+    margin-top: .5rem;
+}
+
+.header {
+    margin-bottom: 3rem;
+}
+
+.form span {
+    font-size: .7rem;
+    color: #637885;
+    padding-inline: 1rem;
+}
+
+.loginLink {
+    color: #637885;
+    text-align: center;
+}
+
+.loginLink a {
+    color: #3071E7;
+}
+
+.loginLink a:hover {
+    text-decoration: underline;
+}
+
+.spinner {
+    display: flex;
+    font-size: 1rem;
+}
+
+.snackbar {
+    width: min(100%, 20rem);
+}

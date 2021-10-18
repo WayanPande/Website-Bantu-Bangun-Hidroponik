@@ -1,4 +1,4 @@
-import { Badge, Button, Input, OutlinedInput, Popover } from '@mui/material';
+import { Badge, Button, OutlinedInput } from '@mui/material';
 import classes from './main-header.module.css';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BsFillCartFill } from 'react-icons/bs';
@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import CartPopover from '../popover/cart-popover';
 import { signOut, useSession } from 'next-auth/client';
+import Link from 'next/link';
 
 function MainHeader() {
 
@@ -30,7 +31,9 @@ function MainHeader() {
 
     return (
         <header className={classes.header}>
-            <img className={classes.img} src='images/Logo.jpg' alt='logo BBH' />
+            <Link href='/' >
+                <a><img className={classes.img} src='images/Logo.jpg' alt='logo BBH' /></a>
+            </Link>
             <form className={classes.form}>
                 <OutlinedInput id="outlined-basic" size="small" className={classes.searchInput} variant="outlined" />
                 <Button variant="contained" className={classes.btn}><AiOutlineSearch /></Button>

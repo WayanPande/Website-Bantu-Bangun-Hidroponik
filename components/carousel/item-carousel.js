@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllItems } from '../../store/product-actions';
+import Link from 'next/link';
 
 function ItemCarousel(props) {
 
@@ -55,7 +56,9 @@ function ItemCarousel(props) {
             <div className={classes.header}>
                 <div className={classes.title}>
                     <h2>{props.title}</h2>
-                    <p>See all <MdKeyboardArrowRight /></p>
+                    <Link href='/shop'>
+                        <a>See all <MdKeyboardArrowRight /></a>
+                    </Link>
                 </div>
                 <div className={classes.ArrowBtn}>
                     <ArrowBtn onClick={prevCarouselHandler} ><MdArrowBackIosNew /></ArrowBtn>

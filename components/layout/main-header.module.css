@@ -54,3 +54,7 @@
     justify-content: space-evenly;
     width: 15rem;
 }
+
+.img {
+    height: 100%;
+}

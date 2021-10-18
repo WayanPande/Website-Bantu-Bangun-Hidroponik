@@ -1,11 +1,11 @@
-import { Alert, Button, CircularProgress, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Snackbar, TextField } from '@mui/material';
-import { useRef, useState } from 'react';
+import { Alert, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Snackbar, TextField } from '@mui/material';
+import { Fragment, useRef, useState } from 'react';
 import classes from './login.module.css';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import Link from 'next/link';
 import { signIn } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Box } from '@mui/system';
+import Head from 'next/head';
 
 function LoginPage() {
     const [values, setValues] = useState({
@@ -57,53 +57,62 @@ function LoginPage() {
             router.replace('/');
         }
 
-        console.log(result)
+        // console.log(result)
     }
 
 
     return (
-        <div className={classes.container}>
-            <Snackbar open={showAlert} autoHideDuration={5000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} className={classes.snackbar} >
-                <Alert variant="filled" severity="success" className={classes.alert} sx={{ width: '100%' }}>
-                    Login success!
-                </Alert>
-            </Snackbar>
-            <div className={classes.contentWrapper}>
-                <div className={classes.header}>
-                    <h2>Sign in to BBH.</h2>
-                    <p>Enter your details below.</p>
-                </div>
-                <form className={classes.form} onSubmit={formSubmitHandler}>
-                    <TextField id="email" label="Email address" variant="outlined" inputRef={emailInputRef} />
-                    <FormControl variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {values.showPassword ? <MdVisibilityOff /> : <MdVisibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label="Password"
-                        />
-                    </FormControl>
-                    {!isLoading && <Button type='submit' className={classes.btn} variant="contained">Login</Button>}
-                    {isLoading && <Button className={classes.btn} variant="contained" disabled>Loading... </Button>}
+        <Fragment>
+            <Head>
+                <title>BBH | Login</title>
+                <meta
+                    name='description'
+                    content='Login untuk berbelanja berbagai macam produk hidroponik...'
+                />
+            </Head>
+            <div className={classes.container}>
+                <Snackbar open={showAlert} autoHideDuration={5000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} className={classes.snackbar} >
+                    <Alert variant="filled" severity="success" className={classes.alert} sx={{ width: '100%' }}>
+                        Login success! - Please wait...
+                    </Alert>
+                </Snackbar>
+                <div className={classes.contentWrapper}>
+                    <div className={classes.header}>
+                        <h2>Sign in to BBH.</h2>
+                        <p>Enter your details below.</p>
+                    </div>
+                    <form className={classes.form} onSubmit={formSubmitHandler}>
+                        <TextField id="email" label="Email address" variant="outlined" inputRef={emailInputRef} />
+                        <FormControl variant="outlined">
+                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-password"
+                                type={values.showPassword ? 'text' : 'password'}
+                                value={values.password}
+                                onChange={handleChange('password')}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {values.showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                label="Password"
+                            />
+                        </FormControl>
+                        {!isLoading && <Button type='submit' className={classes.btn} variant="contained">Login</Button>}
+                        {isLoading && <Button className={classes.btn} variant="contained" disabled>Loading... </Button>}
 
-                    <p className={classes.loginLink} >Don’t have an account?<Link href='/auth/register' > Get started</Link> </p>
-                </form>
+                        <p className={classes.loginLink} >Don’t have an account?<Link href='/auth/register' > Get started</Link> </p>
+                    </form>
+                </div>
             </div>
-        </div>
+        </Fragment>
     )
 }
 

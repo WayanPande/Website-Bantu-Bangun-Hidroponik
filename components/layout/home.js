@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import CategoryCard from "../card/category-card";
 import BlogCarousel from "../carousel/blog-carousel";
 import ItemCarousel from "../carousel/item-carousel";
@@ -6,15 +6,18 @@ import classes from './home.module.css';
 import Modal from '../ui/Modal';
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import { useSession } from "next-auth/client";
 
 function Home(props) {
 
     const router = useRouter();
     const slug = useSelector(state => state.modal.slug);
     const showedModal = useSelector(state => state.modal.showModal);
+    const [session, loading] = useSession();
+
 
     useEffect(() => {
-        console.log(router.query)
+        // console.log(router.query)
         if (router.query.blog) {
             router.push('/?blog=' + router.query.blog, undefined, { shallow: true });
         }

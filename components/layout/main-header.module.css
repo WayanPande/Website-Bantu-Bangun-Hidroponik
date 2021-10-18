@@ -22,6 +22,7 @@
     height: 100%;
     width: min(90%, 30rem);
     left: 1.5rem;
+    border-radius: 10px;
 }
 
 .btn {
@@ -29,6 +30,12 @@
     border-radius: 10px !important;
     font-size: 1.3rem !important;
     background-color: #4c4bb5;
+    text-transform: none;
+}
+
+.btnLogout {
+    border-radius: 15px;
+    text-transform: none;
 }
 
 .registerBtn {

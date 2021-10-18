@@ -1,0 +1,10 @@
+.checkbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+}
+
+.container {
+    width: 100%;
+}

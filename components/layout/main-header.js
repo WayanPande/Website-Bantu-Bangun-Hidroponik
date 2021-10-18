@@ -45,11 +45,11 @@ function MainHeader() {
             )}
             {!session && !loading && (
                 <div className={classes.LoginRegisterBtn}>
-                    <Button href='/auth/login' variant="outlined">Login</Button>
-                    <Button href='/auth/register' className={classes.registerBtn} variant="contained">Register</Button>
+                    <Button href='/auth/login' variant="outlined" className={classes.btn}>Login</Button>
+                    <Button href='/auth/register' className={classes.registerBtn} variant="contained" className={classes.btn}>Register</Button>
                 </div>
             )}
-            {session && !loading && <Button onClick={logoutHandler} variant="outlined">Logout</Button>}
+            {session && !loading && <Button onClick={logoutHandler} variant="outlined" className={classes.btnLogout}>Logout</Button>}
         </header>
     )
 }

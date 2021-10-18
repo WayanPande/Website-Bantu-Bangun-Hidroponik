@@ -1,0 +1,14 @@
+.container {
+    width: 100%;
+    padding-inline: 10rem;
+    display: flex;
+    padding-top: 6rem;
+}
+
+.sideNav {
+    width: 15rem;
+}
+
+.divider {
+    padding-block: 1rem;
+}

@@ -1,4 +1,4 @@
-import { Alert, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Snackbar, TextField } from '@mui/material';
+import { Alert, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Snackbar, TextField, useMediaQuery } from '@mui/material';
 import { Fragment, useRef, useState } from 'react';
 import classes from './login.module.css';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
@@ -8,20 +8,31 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 function LoginPage() {
-    const [values, setValues] = useState({
+    const [enteredPassword, setEnteredPassword] = useState({
         password: '',
         showPassword: false,
     });
 
     const [isLoading, setIsLoading] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [emailIsValid, setEmailIsValid] = useState(true);
+    const [alertMessage, setAlertMessage] = useState({ type: '', message: '' });
     const emailInputRef = useRef();
     const router = useRouter();
+    const matches = useMediaQuery('(min-width:600px)');
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setShowAlert(false);
+    };
 
     const handleClickShowPassword = () => {
-        setValues({
-            ...values,
-            showPassword: !values.showPassword,
+        setEnteredPassword({
+            ...enteredPassword,
+            showPassword: !enteredPassword.showPassword,
         });
     };
 
@@ -30,8 +41,23 @@ function LoginPage() {
     };
 
     const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
+        setEnteredPassword({ ...enteredPassword, [prop]: event.target.value });
     };
+
+    const validateEmailHandler = () => {
+
+        const enteredEmail = emailInputRef.current.value;
+        if (!enteredEmail.includes('@') && !enteredEmail.trim().length < 1) {
+            setEmailIsValid(false);
+            setIsLoading(false);
+        } else {
+            setEmailIsValid(true);
+        }
+    }
+
+    const emailInputClicked = () => {
+        setEmailIsValid(true);
+    }
 
 
     const formSubmitHandler = async (e) => {
@@ -40,26 +66,47 @@ function LoginPage() {
         setIsLoading(true);
         const enteredEmail = emailInputRef.current.value;
 
+        if (enteredEmail.trim().length <= 1) {
+            setEmailIsValid(false);
+            setIsLoading(false);
+            return;
+        }
+
         const result = await signIn('credentials', {
             redirect: false,
             email: enteredEmail,
-            password: values.password
+            password: enteredPassword.password
         });
 
         if (result.ok) {
+            if (result.error === 'Could not log you in!') {
+                setAlertMessage({ type: 'error', message: result.error + ' - please check your credentials' });
+            } else if (result.error === 'No user found') {
+                setAlertMessage({ type: 'error', message: result.error + ' - please check your credentials' });
+            } else {
+                setAlertMessage({ type: 'success', message: 'Login success! - Please wait...' });
+            }
             setShowAlert(true);
             setIsLoading(false);
         }
-
-
 
         if (!result.error) {
             router.replace('/');
         }
 
-        // console.log(result)
     }
 
+    const emailInputValid = <TextField id="email" label="Email address" variant="outlined" onBlur={validateEmailHandler} inputRef={emailInputRef} />;
+
+    const emailInputInValid = <TextField id="email" error helperText="Incorrect entry." onClick={emailInputClicked} onBlur={validateEmailHandler} label="Email address" variant="outlined" inputRef={emailInputRef} />;
+
+    const alert = (
+        <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  >
+            <Alert variant="filled" severity={alertMessage.type} onClose={handleClose} className={classes.alert} sx={{ width: '100%' }}>
+                {alertMessage.message}
+            </Alert>
+        </Snackbar>
+    );
 
     return (
         <Fragment>
@@ -71,24 +118,29 @@ function LoginPage() {
                 />
             </Head>
             <div className={classes.container}>
-                <Snackbar open={showAlert} autoHideDuration={5000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} className={classes.snackbar} >
-                    <Alert variant="filled" severity="success" className={classes.alert} sx={{ width: '100%' }}>
-                        Login success! - Please wait...
-                    </Alert>
-                </Snackbar>
+                {alert}
+                {matches && (
+                    <div className={classes.banner}>
+                        <Link href='/' >
+                            <a><img className={classes.img} src='/images/Logo.jpg' alt='logo BBH' /></a>
+                        </Link>
+                        <h1>Hi, Welcome Back</h1>
+                        <img className={classes.welcomeImg} src='/images/login.jpg' alt='banner' />
+                    </div>
+                )}
                 <div className={classes.contentWrapper}>
                     <div className={classes.header}>
                         <h2>Sign in to BBH.</h2>
                         <p>Enter your details below.</p>
                     </div>
                     <form className={classes.form} onSubmit={formSubmitHandler}>
-                        <TextField id="email" label="Email address" variant="outlined" inputRef={emailInputRef} />
+                        {emailIsValid ? emailInputValid : emailInputInValid}
                         <FormControl variant="outlined">
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password"
-                                type={values.showPassword ? 'text' : 'password'}
-                                value={values.password}
+                                type={enteredPassword.showPassword ? 'text' : 'password'}
+                                value={enteredPassword.password}
                                 onChange={handleChange('password')}
                                 endAdornment={
                                     <InputAdornment position="end">
@@ -98,7 +150,7 @@ function LoginPage() {
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {values.showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                                            {enteredPassword.showPassword ? <MdVisibilityOff /> : <MdVisibility />}
                                         </IconButton>
                                     </InputAdornment>
                                 }

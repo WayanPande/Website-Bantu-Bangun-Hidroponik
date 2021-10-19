@@ -5,7 +5,7 @@ class MyDocument extends Document {
         return (
             <Html lang='en'>
                 <Head>
-                    <link rel="shortcut icon" type="images/png" href="images/favicon.png" />
+                    <link rel="shortcut icon" type="images/png" href='/images/favicon.png' />
                 </Head>
                 <body>
                     <div id='overlays' />

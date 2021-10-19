@@ -5,14 +5,23 @@ import { Skeleton } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cart-slice';
 import { formatMoneyOne } from '../../helpers/moneyFormat-util';
+import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 function ItemCard(props) {
 
     const dispatch = useDispatch();
     const cost = formatMoneyOne(props.cost);
+    const [session, loading] = useSession();
+    const router = useRouter();
 
     const addToCart = () => {
-        dispatch(cartActions.addItem());
+        if (!session) {
+            router.push('/auth/login');
+        } else {
+            dispatch(cartActions.addItem());
+        }
+
     }
 
     return (

@@ -1,13 +1,17 @@
 import { Divider } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { countCategoriesTags, getAllItems } from '../../store/product-actions';
+import ShopContent from '../shop/shop-content';
 import ShopSideNav from '../sideNav/shop-sidenav';
 import classes from './shop.module.css';
 
-const categories = [
-    { title: 'Media Tanam', checked: false, sum: 2 },
-    { title: 'Bibit Tanaman', checked: false, sum: 12 },
-    { title: 'Pupuk', checked: false, sum: 20 },
-    { title: 'Alat Bantu', checked: false, sum: 13 },
-    { title: 'Wadah Tanam', checked: false, sum: 5 },
+const InitialCategories = [
+    { title: 'Media Tanam', checked: false, sum: 0 },
+    { title: 'Bibit Tanaman', checked: false, sum: 0 },
+    { title: 'Pupuk', checked: false, sum: 0 },
+    { title: 'Alat Bantu', checked: false, sum: 0 },
+    { title: 'Wadah Tanam', checked: false, sum: 0 },
 ];
 
 const suhu = [
@@ -18,9 +22,16 @@ const suhu = [
 
 function Shop(props) {
 
-    const categoriesChange = (items) => {
-        console.log(items)
+    const productItems = useSelector(state => state.product.items);
+    const dispatch = useDispatch();
+
+    if (productItems.length === 0) {
+        dispatch(getAllItems());
     }
+
+    useEffect(() => {
+        dispatch(countCategoriesTags(InitialCategories, productItems));
+    }, [dispatch, productItems, InitialCategories]);
 
     const suhuChange = (items) => {
         console.log(items)
@@ -29,12 +40,12 @@ function Shop(props) {
     return (
         <div className={classes.container}>
             <div className={classes.sideNav} >
-                <ShopSideNav title='Categories' items={categories} onChange={categoriesChange} />
+                <ShopSideNav key={1} title='Categories' type='categories' />
                 <Divider className={classes.divider} />
-                <ShopSideNav title='Suhu' items={suhu} onChange={suhuChange} />
+                <ShopSideNav key={2} title='Suhu' items={suhu} onChange={suhuChange} />
             </div>
             <div className={classes.main}>
-
+                <ShopContent />
             </div>
         </div>
     )

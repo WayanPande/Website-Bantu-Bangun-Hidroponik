@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const productSlice = createSlice({
     name: 'product',
-    initialState: { items: [] },
+    initialState: { items: [], categories: [] },
     reducers: {
         getAllItems(state, action) {
             state.items = action.payload.items;
+        },
+        setCategoriesTags(state, action) {
+
+            state.categories = action.payload.data;
+
         }
     }
 });

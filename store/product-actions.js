@@ -32,3 +32,38 @@ export const getAllItems = () => {
         dispatch(uiActions.showLoading());
     }
 }
+
+export const countCategoriesTags = (InitialCategories, items) => {
+
+    return (dispatch) => {
+        let newState = InitialCategories;
+
+        for (const item of items) {
+            newState = newState.map(p => p.title.toLowerCase() === item.kategori ? { ...p, sum: p.sum + 1 } : p);
+        }
+
+        dispatch(productActions.setCategoriesTags({
+            data: newState
+        }))
+    }
+}
+
+export const checkedCategoriesTagsHandler = (prevState, checkbox) => {
+    return (dispatch) => {
+
+        const index = prevState.findIndex((item => item.title === checkbox));
+        const isChecked = prevState[index].checked;
+
+        const updatedTag = { ...prevState[index], checked: !isChecked };
+
+        const updatedTags = [
+            ...prevState.slice(0, index),
+            updatedTag,
+            ...prevState.slice(index + 1),
+        ];
+
+        dispatch(productActions.setCategoriesTags({
+            data: updatedTags
+        }));
+    }
+}

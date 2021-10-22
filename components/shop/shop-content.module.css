@@ -1,0 +1,24 @@
+.firstRow {
+    display: flex;
+    gap: 6rem;
+}
+
+.input {
+    width: 10rem;
+}
+
+.priceInput {
+    border: 2px solid #e4e4e4;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    width: 20rem;
+}
+
+.secondRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 3rem;
+}

@@ -9,6 +9,10 @@
     cursor: pointer;
 }
 
+.shop {
+    border: 2px solid #E1E1E1;
+}
+
 .img {
     border-radius: 20px;
     border-bottom-left-radius: 0;

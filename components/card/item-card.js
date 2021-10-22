@@ -25,7 +25,7 @@ function ItemCard(props) {
     }
 
     return (
-        <div className={classes.wrapper}>
+        <div className={`${props.isShopPage && classes.shop} ${classes.wrapper}`}>
             <div className={classes.img}>
                 <img src={`images/produk/${props.id}.jpg`} alt={props.title} />
             </div>

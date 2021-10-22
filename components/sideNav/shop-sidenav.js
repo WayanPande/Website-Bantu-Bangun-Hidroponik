@@ -1,36 +1,31 @@
 import { Checkbox, FormControl, FormControlLabel, FormGroup } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkedCategoriesTagsHandler, countCategoriesTags } from '../../store/product-actions';
 import classes from './shop-sidenav.module.css';
 
 
 
 function ShopSideNav(props) {
 
-    const [tags, setTags] = useState(props.items);
+    const [tags, setTags] = useState([]);
+    const categoriesTags = useSelector(state => state.product.categories);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        props.onChange(tags);
-    }, [tags]);
+        if (props.type === 'categories') {
+            setTags(categoriesTags);
+        } else {
+            setTags(props.items)
+        }
+    }, [categoriesTags, props.type])
 
 
     const handleChange = (event) => {
         const checkbox = event.target.name;
         // const index = tags.findIndex((item => item.title === checkbox));
 
-        setTags((prevState) => {
-            const index = prevState.findIndex((item => item.title === checkbox));
-            const isChecked = prevState[index].checked;
-
-            const updatedTag = { ...prevState[index], checked: !isChecked };
-
-            const updatedTags = [
-                ...prevState.slice(0, index),
-                updatedTag,
-                ...prevState.slice(index + 1),
-            ];
-
-            return updatedTags
-        });
+        dispatch(checkedCategoriesTagsHandler(tags, checkbox));
     };
 
 

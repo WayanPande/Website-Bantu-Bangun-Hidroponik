@@ -106,7 +106,7 @@ function MainHeader() {
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                         <MenuItem>
-                            <Avatar alt={session.user.name} src={`https://avatars.dicebear.com/api/avataaars/${session.user.name}.svg`} /> Profile
+                            <Avatar alt={session.user.name} src={`https://avatars.dicebear.com/api/avataaars/${session.user.name}.svg`} /> {session.user.name}
                         </MenuItem>
                         <Divider />
                         <MenuItem>

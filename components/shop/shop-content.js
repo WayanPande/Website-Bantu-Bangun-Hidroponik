@@ -1,7 +1,8 @@
-import { Divider, InputBase, MenuItem, OutlinedInput, Select, TextField, Slider } from '@mui/material';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { Divider, InputBase, MenuItem, OutlinedInput, Select, TextField, Slider, Chip } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { formatMoneyOne } from '../../helpers/moneyFormat-util';
+import { checkedCategoriesTagsHandler, checkedSuhuTagsHandler } from '../../store/product-actions';
 import ItemCard from '../card/item-card';
 import classes from './shop-content.module.css';
 
@@ -11,17 +12,16 @@ const sortByItems = [
     'Price - high',
 ]
 
-function valuetext(value) {
-    return `${value}°C`;
-}
-
 const minDistance = 10;
 
-function ShopContent() {
+function ShopContent(props) {
 
     const [sortBy, setSortBy] = useState([]);
-    const [value1, setValue1] = useState([20000, 60000]);
-    const productItems = useSelector(state => state.product.items);
+    const [priceRange, setPriceRange] = useState([props.minPrice, props.maxPrice]);
+    const categoriesTags = useSelector(state => state.product.categories);
+    const suhuTags = useSelector(state => state.product.suhu);
+    const productItems = props.items;
+    const dispatch = useDispatch();
 
     const handleChange = (event) => {
         const {
@@ -33,17 +33,64 @@ function ShopContent() {
         );
     };
 
+    useEffect(() => {
+        props.filterPrice(priceRange)
+    }, [priceRange])
+
+    useEffect(() => {
+        props.sortBy(sortBy)
+    }, [sortBy])
+
     const handleChange1 = (event, newValue, activeThumb) => {
         if (!Array.isArray(newValue)) {
             return;
         }
 
         if (activeThumb === 0) {
-            setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+            setPriceRange([Math.min(newValue[0], priceRange[1] - minDistance), priceRange[1]]);
         } else {
-            setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+            setPriceRange([priceRange[0], Math.max(newValue[1], priceRange[0] + minDistance)]);
         }
     };
+
+
+    const checkTagsCategory = (name) => {
+
+        let categories;
+        let suhu;
+
+        for (const category of categoriesTags) {
+            if (category.title === name) {
+                categories = true;
+                break;
+            }
+            categories = false;
+        }
+
+        for (const temp of suhuTags) {
+            if (temp.title === name) {
+                suhu = true;
+                break;
+            }
+            suhu = false;
+        }
+
+        if (categories) {
+            dispatch(checkedCategoriesTagsHandler(categoriesTags, name));
+        }
+
+        if (suhu) {
+            dispatch(checkedSuhuTagsHandler(suhuTags, name));
+        }
+
+    }
+
+    const tagRemoveHandler = (e) => () => {
+
+        checkTagsCategory(e)
+
+        // dispatch(checkedCategoriesTagsHandler(categoriesTags, e));
+    }
 
 
     return (
@@ -76,28 +123,34 @@ function ShopContent() {
                 <div>
                     <h3>Price</h3>
                     <div className={classes.priceInput}>
-                        <TextField id="outlined-basic" value={'Rp ' + formatMoneyOne(value1[0])} sx={{ paddingInline: '1rem' }} variant="standard" InputProps={{
+                        <TextField id="outlined-basic" value={'Rp ' + formatMoneyOne(priceRange[0])} sx={{ paddingInline: '1rem' }} variant="standard" InputProps={{
 
                             disableUnderline: true, // <== added this
                         }} />
                         <Divider orientation="vertical" variant="middle" flexItem />
-                        <TextField id="outlined-basic" value={'Rp ' + formatMoneyOne(value1[1])} sx={{ paddingInline: '1rem' }} variant="standard" InputProps={{
+                        <TextField id="outlined-basic" value={'Rp ' + formatMoneyOne(priceRange[1])} sx={{ paddingInline: '1rem' }} variant="standard" InputProps={{
 
                             disableUnderline: true, // <== added this
                         }} />
                     </div>
                     <Slider
                         getAriaLabel={() => 'Minimum distance'}
-                        value={value1}
+                        value={priceRange}
                         onChange={handleChange1}
-                        getAriaValueText={valuetext}
+
                         disableSwap
                         sx={{ paddingTop: '0', marginTop: '0' }}
-                        min={1000}
-                        max={300000}
+                        min={props.minPrice}
+                        max={props.maxPrice}
                         step={500}
                     />
                 </div>
+            </div>
+            <div className={classes.chipContainer}>
+
+                {categoriesTags.map(category => category.checked ? <Chip className={classes.chip} label={category.title} onDelete={tagRemoveHandler(category.title)} /> : '')}
+                {suhuTags.map(suhu => suhu.checked ? <Chip className={classes.chip} label={suhu.title} onDelete={tagRemoveHandler(suhu.title)} /> : '')}
+
             </div>
             <div className={classes.secondRow}>
                 {productItems.map((item =>

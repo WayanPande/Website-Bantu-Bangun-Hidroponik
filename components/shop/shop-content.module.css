@@ -22,3 +22,16 @@
     gap: 2rem;
     margin-top: 3rem;
 }
+
+.chipContainer {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: 2rem;
+}
+
+.chip {
+    background-color: #F6F7FB;
+    color: #3071E7;
+    font-weight: 600;
+}

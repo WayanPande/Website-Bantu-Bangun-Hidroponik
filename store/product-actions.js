@@ -48,6 +48,21 @@ export const countCategoriesTags = (InitialCategories, items) => {
     }
 }
 
+export const countSuhuTags = (InitialSuhuTags, items) => {
+
+    return (dispatch) => {
+        let newState = InitialSuhuTags;
+
+        for (const item of items) {
+            newState = newState.map(p => p.title.toLowerCase() === item.suhu ? { ...p, sum: p.sum + 1 } : p);
+        }
+
+        dispatch(productActions.setSuhuTags({
+            data: newState
+        }))
+    }
+}
+
 export const checkedCategoriesTagsHandler = (prevState, checkbox) => {
     return (dispatch) => {
 
@@ -63,6 +78,26 @@ export const checkedCategoriesTagsHandler = (prevState, checkbox) => {
         ];
 
         dispatch(productActions.setCategoriesTags({
+            data: updatedTags
+        }));
+    }
+}
+
+export const checkedSuhuTagsHandler = (prevState, checkbox) => {
+    return (dispatch) => {
+
+        const index = prevState.findIndex((item => item.title === checkbox));
+        const isChecked = prevState[index].checked;
+
+        const updatedTag = { ...prevState[index], checked: !isChecked };
+
+        const updatedTags = [
+            ...prevState.slice(0, index),
+            updatedTag,
+            ...prevState.slice(index + 1),
+        ];
+
+        dispatch(productActions.setSuhuTags({
             data: updatedTags
         }));
     }

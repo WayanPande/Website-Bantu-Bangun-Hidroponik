@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { formatMoneyOne } from "../../helpers/moneyFormat-util";
 import CartItemCard from "../card/cartItem-card";
 import classes from './cart-popover.module.css';
+import Link from 'next/link';
 
 function CartPopover(props) {
     const cartItems = useSelector(state => state.cart.items);
@@ -48,7 +49,7 @@ function CartPopover(props) {
 
                 </div>
                 <div className={classes.footer}>
-                    <Button variant="outlined" className={classes.btn} >Go to cart</Button>
+                    <Link href='/cart' ><Button variant="outlined" href='/cart' className={classes.btn} >Go to cart</Button></Link>
                     <Button variant="contained" className={classes.btn}>Checkout</Button>
                 </div>
             </div>

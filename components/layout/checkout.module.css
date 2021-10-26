@@ -1,0 +1,71 @@
+.container {
+    padding-inline: 4rem;
+    display: flex;
+    padding-top: 6rem;
+    position: relative;
+}
+
+.itemWrapper {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.priceWrapper {
+    width: 40%;
+}
+
+.itemHeader {
+    display: flex;
+    background: #fff5f0;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: .7rem;
+    padding-left: 3rem;
+    padding-right: 1.5rem;
+    width: 100%;
+    border-radius: 20px;
+    font-size: .8rem;
+}
+
+.labelWrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5rem;
+    width: 60%;
+}
+
+.label {
+    text-align: center;
+}
+
+.label p {
+    color: #a38b84;
+}
+
+.priceWrapper {
+    position: fixed;
+    padding: 1rem 2rem;
+    width: 25%;
+    margin-left: 67%;
+    background: #fff5f0;
+    border-radius: 20px;
+    height: 80%;
+}
+
+.priceContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payBtn {
+    width: 100%;
+    padding-top: .8em;
+    padding-bottom: .8em;
+    background-color: #4c4bb5;
+    text-transform: none;
+    font-size: 1rem;
+    border-radius: 30px;
+    margin-top: 3rem;
+}

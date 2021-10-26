@@ -4,8 +4,9 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState: { items: [], totalItem: 0 },
     reducers: {
-        addItem(state, action) {
-            state.totalItem++;
+        getAllCartItems(state, action) {
+            state.items = action.payload.items
+            state.totalItem = action.payload.count
         }
     }
 });

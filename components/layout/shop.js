@@ -5,6 +5,8 @@ import { countCategoriesTags, countSuhuTags, getAllItems } from '../../store/pro
 import ShopContent from '../shop/shop-content';
 import ShopSideNav from '../sideNav/shop-sidenav';
 import classes from './shop.module.css';
+import { getAllItems as getAllCartItems } from '../../store/cart-actions';
+import { useSession } from 'next-auth/client';
 
 const InitialCategories = [
     { title: 'Media Tanam', checked: false, sum: 0 },
@@ -119,6 +121,7 @@ function Shop(props) {
     const productItems = useSelector(state => state.product.items);
     const categoriesTags = useSelector(state => state.product.categories);
     const suhuTags = useSelector(state => state.product.suhu);
+    const [session, loading] = useSession();
     const [items, setItems] = useState([]);
     const [priceRange, setPriceRange] = useState([]);
     const [sortType, setSortType] = useState('');
@@ -127,10 +130,14 @@ function Shop(props) {
     const minPrice = productItems.length > 0 ? setItemsSortBy('Price - high', productItems)[productItems.length - 1].harga : 1000;
 
     if (productItems.length === 0) {
-        dispatch(getAllItems());
+        dispatch(getAllItems())
     }
 
-    console.log(items)
+    useEffect(() => {
+        if (session) {
+            dispatch(getAllCartItems(session.user.email))
+        }
+    }, [session])
 
     useEffect(() => {
         setItems(productItems)

@@ -2,21 +2,25 @@ import { Avatar, Badge, Button, Divider, IconButton, ListItemIcon, Menu, MenuIte
 import classes from './main-header.module.css';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BsFillCartFill } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
-import { Fragment, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Fragment, useEffect, useState } from 'react';
 import CartPopover from '../popover/cart-popover';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { IoLogOut, IoSettings } from 'react-icons/io5';
+import { getAllItems } from '../../store/cart-actions';
 
 function MainHeader() {
 
     const totalCartItem = useSelector(state => state.cart.totalItem);
+    const cartItems = useSelector(state => state.cart.items);
     const [showPopover, setShowPopover] = useState(null);
+    const [btnIsHighLighted, setBtnIsHighLighted] = useState(false);
     const [session, loading] = useSession();
-
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
     const openProfile = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -36,9 +40,28 @@ function MainHeader() {
         signOut();
     }
 
+    useEffect(() => {
+        if (session) {
+            dispatch(getAllItems(session.user.email))
+        }
+    }, [session, dispatch])
+
+    useEffect(() => {
+        setBtnIsHighLighted(true);
+
+        const timer = setTimeout(() => {
+            setBtnIsHighLighted(false);
+        }, 300);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [cartItems])
+
     const open = Boolean(showPopover);
     const id = open ? 'simple-popover' : undefined;
 
+    const cartBtnClasses = `${classes.badge} ${btnIsHighLighted ? classes.bump : ''}`
 
 
     return (
@@ -51,7 +74,7 @@ function MainHeader() {
                 <Button variant="contained" className={classes.btn}><AiOutlineSearch /></Button>
             </form>
             {session && !loading && (
-                <div className={classes.badge}>
+                <div className={cartBtnClasses}>
                     <Badge color="error" badgeContent={totalCartItem} >
                         <Button variant="contained" aria-describedby={id} onClick={cartHandlerOpen} className={classes.btn}><BsFillCartFill /></Button>
                     </Badge>

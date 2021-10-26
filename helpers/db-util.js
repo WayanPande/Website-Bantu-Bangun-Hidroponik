@@ -9,14 +9,47 @@ export async function connectDatabase() {
 export async function insertDocument(client, collection, document) {
     const db = client.db();
 
-    const result = await db.collection(collection).insertMany(document);
+    const result = await db.collection(collection).insertOne(document);
 
     return result;
 }
 
-export async function getAllDocuments(client, collection) {
+export async function insertItem(client, collection, document) {
+    const db = client.db();
+    const email = document.email;
+    const data = document.items[0];
+
+    const result = await db.collection(collection).updateOne({ email: email }, { $push: { "items": data } });
+
+    return result;
+}
+
+export async function getAllDocuments(client, collection, email) {
     const db = client.db();
 
-    const documents = await db.collection(collection).find().toArray();
+    const documents = await db.collection(collection).find({ email: email }).toArray();
     return documents;
+}
+
+export async function updateDocument(client, collection, data) {
+    const db = client.db();
+
+    const result = await db.collection(collection).updateOne({ email: data.email }, { $set: { "items": data.items } });
+
+    return result;
+}
+
+export async function insertNewUser(client, collection, data) {
+    const db = client.db();
+
+    const result = await db.collection(collection).insertOne(data)
+
+    return result;
+}
+
+export async function deleteItem(client, collection, email, id) {
+    const db = client.db();
+
+    const result = await db.collection(collection).updateOne({ email: email }, { $pull: { "items": { id: id } } }, false, true);
+    return result;
 }

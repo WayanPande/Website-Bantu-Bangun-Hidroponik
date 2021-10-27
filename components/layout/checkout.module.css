@@ -26,6 +26,7 @@
     width: 100%;
     border-radius: 20px;
     font-size: .8rem;
+    margin-top: 5rem;
 }
 
 .labelWrapper {
@@ -50,7 +51,8 @@
     margin-left: 67%;
     background: #fff5f0;
     border-radius: 20px;
-    height: 80%;
+    height: 60%;
+    margin-top: 5rem;
 }
 
 .priceContent {
@@ -68,4 +70,42 @@
     font-size: 1rem;
     border-radius: 30px;
     margin-top: 3rem;
+}
+
+.shippingInput {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.shippingContainer {
+    width: 70%;
+    align-self: center;
+}
+
+.shippingContainer h2 {
+    margin-top: 3rem;
+}
+
+.durationWrapper {
+    width: 100%;
+}
+
+.durationWrapper span {
+    font-size: .7rem;
+    margin: 0;
+    color: #a38b84;
+}
+
+.durationWrapper p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.durationHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
 }

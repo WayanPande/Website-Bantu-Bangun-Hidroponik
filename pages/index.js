@@ -9,7 +9,7 @@ function HomePage() {
     return (
         <Fragment>
             <Head>
-                <title>BBH | Home</title>
+                <title>BBH • Home</title>
                 <meta
                     name='description'
                     content='Temukan peralatan untuk menunjang pertanian hidroponikmu...'

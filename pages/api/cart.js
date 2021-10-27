@@ -1,4 +1,4 @@
-import { connectDatabase, deleteItem, getAllDocuments, insertDocument, insertItem, insertNewUser, updateDocument } from "../../helpers/db-util";
+import { connectDatabase, deleteItem, getAllDocuments, insertDocument, insertItem, insertNewUser, updateDocument, updateProductStok } from "../../helpers/db-util";
 
 async function handler(req, res) {
 
@@ -54,23 +54,61 @@ async function handler(req, res) {
             }
         }
 
+        if (type === 'checkout') {
+            const cartItem = req.body.items;
+
+            try {
+                await insertNewUser(client, 'order', cartItem)
+                client.close();
+            } catch (error) {
+                res.status(500).json({ message: 'Inserting data failed' });
+                return;
+            }
+            res.status(201).json({ message: 'Success' });
+        }
 
     }
 
     if (req.method === 'PUT') {
-        const cartItem = req.body.items;
 
-        try {
-            await updateDocument(client, 'cart', cartItem)
-            client.close();
-        } catch (error) {
-            res.status(500).json({ message: 'Updating data failed' });
-            return;
+        const type = req.body.type;
+
+        if (type === 'reduce-amount') {
+
+            const id = req.body.id;
+            const amount = req.body.amount;
+
+            console.log(id, amount)
+
+            try {
+                await updateProductStok(client, 'product', id, amount)
+                client.close();
+            } catch (error) {
+                res.status(500).json({ message: 'Updating data failed' });
+                return;
+            }
+
+
+
+            res.status(201).json({ message: 'Success' });
+
         }
 
+        if (type === 'add-item') {
+            const cartItem = req.body.items;
+            try {
+                await updateDocument(client, 'cart', cartItem)
+                client.close();
+            } catch (error) {
+                res.status(500).json({ message: 'Updating data failed' });
+                return;
+            }
 
 
-        res.status(201).json({ message: 'Success' });
+
+            res.status(201).json({ message: 'Success' });
+        }
+
     }
 
     if (req.method === 'GET') {

@@ -3,7 +3,6 @@ import classes from './item-card.module.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Skeleton } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { cartActions } from '../../store/cart-slice';
 import { formatMoneyOne } from '../../helpers/moneyFormat-util';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';

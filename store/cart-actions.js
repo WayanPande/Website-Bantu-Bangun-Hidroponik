@@ -85,7 +85,7 @@ export function addItemsCart(productItem, email, cartItems) {
                     updatedCartItems = updatedCartItem
                 }
 
-                const reqBody = { items: updatedCartItems };
+                const reqBody = { items: updatedCartItems, type: 'add-item' };
 
                 const response = await fetch('/api/cart', {
                     method: 'PUT',
@@ -183,7 +183,7 @@ export function decreaseItemsCart(productItem, email, cartItems) {
             updatedCartItems = updatedCartItem
         }
 
-        const reqBody = { items: updatedCartItems };
+        const reqBody = { items: updatedCartItems, type: 'add-item' };
 
         const response = await fetch('/api/cart', {
             method: 'PUT',
@@ -216,6 +216,69 @@ export function removeItem(id, email) {
         const data = await response.json();
 
         console.log(data)
+
+    }
+}
+
+export function checkoutItems(items) {
+
+    return async (dispatch) => {
+        const reseivedItems = items;
+
+        const newItem = {
+            email: reseivedItems.email,
+            items: []
+        }
+
+        const reqBody = { items: reseivedItems, type: 'checkout' };
+
+        console.log(reseivedItems.email)
+
+        const response = await fetch('/api/cart', {
+            method: 'POST',
+            body: JSON.stringify(reqBody),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        console.log(data)
+
+        if (data.message === 'Success') {
+            // update product stok
+            for (const product of reseivedItems.items) {
+                const bodyItem = { id: product.id, amount: product.amount * -1, type: 'reduce-amount' }
+
+                const response = await fetch('/api/cart', {
+                    method: 'PUT',
+                    body: JSON.stringify(bodyItem),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                console.log(data)
+            }
+
+            // remove all item from cart
+            const newCartItems = { items: newItem, type: 'add-item' };
+
+            const response = await fetch('/api/cart', {
+                method: 'PUT',
+                body: JSON.stringify(newCartItems),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            console.log(data)
+        }
 
     }
 }

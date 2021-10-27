@@ -18,7 +18,6 @@ function CheckoutCard(props) {
 
     const basePrice = productItems.filter(item => item.id === props.id);
 
-    console.log(basePrice)
 
     const quantityChangeHandler = (e) => {
 
@@ -79,7 +78,7 @@ function CheckoutCard(props) {
                 <div className={classes.content}>
                     <div className={classes.buttonWrapper}>
                         <button onClick={quantityChangeHandler}>-</button>
-                        <input type='number' value={quantity} min='0' />
+                        <input readOnly type='number' value={quantity} min='0' />
                         <button onClick={quantityChangeHandler} >+</button>
                     </div>
                     <p>Rp {totalPrice}</p>

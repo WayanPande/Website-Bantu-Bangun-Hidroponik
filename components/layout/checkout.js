@@ -1,14 +1,15 @@
 import { IoCloseSharp } from 'react-icons/io5';
-import { Alert, Button, Divider, FormControl, InputLabel, MenuItem, Select, Snackbar, Step, StepButton, StepLabel, Stepper, TextField, Typography } from '@mui/material';
+import { Alert, Button, Card, CardActionArea, CardContent, CardMedia, Divider, FormControl, InputLabel, MenuItem, Select, Snackbar, Step, StepButton, StepLabel, Stepper, TextField, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { formatMoneyOne } from '../../helpers/moneyFormat-util';
 import CheckoutCard from '../card/checkout-card';
 import classes from './checkout.module.css';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { checkoutItems, getAllItems as getAllCartItems } from '../../store/cart-actions';
 import { useSession } from 'next-auth/client';
 import { getAllItems } from '../../store/product-actions';
+import PaymentMethod from '../shop/payment-method';
 
 const steps = ['Cart', 'Details', 'Payment'];
 
@@ -42,6 +43,12 @@ function Checkout() {
     let tax = 0;
     let subTotal = 0;
     let readableTotalPrice = 0;
+
+    useEffect(() => {
+        if (session) {
+            dispatch(getAllItems(session.user.email))
+        }
+    }, [session, dispatch])
 
     const currentDate = new Date()
     const humanReadableDate = new Date(currentDate).toLocaleDateString('en-US', {
@@ -242,6 +249,11 @@ function Checkout() {
                         </FormControl>
                     </form>
                 )}
+                {activeStep === 2 && (
+                    <div className={classes.paymentWrapper}>
+                        <PaymentMethod />
+                    </div>
+                )}
             </div>
             <div className={classes.priceWrapper}>
                 <div className={classes.priceContent}>
@@ -264,7 +276,7 @@ function Checkout() {
                     <span>{quantity}</span>
                 </div>
                 <Divider />
-                {cartItems[0].items.length !== 0 && <Button className={classes.payBtn} onClick={handleNext} variant="contained">Pay</Button>}
+                {cartItems.length > 0 && cartItems[0].items.length !== 0 && <Button className={classes.payBtn} onClick={handleNext} variant="contained">Pay</Button>}
             </div>
         </div>
     )

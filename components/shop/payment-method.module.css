@@ -1,0 +1,9 @@
+.paymentWrapper {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.container {
+    margin-top: 3rem;
+}

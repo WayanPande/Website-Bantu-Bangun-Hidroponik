@@ -3,6 +3,7 @@
     display: flex;
     padding-top: 6rem;
     position: relative;
+    margin-bottom: 5rem;
 }
 
 .itemWrapper {
@@ -108,4 +109,9 @@
     justify-content: space-between;
     align-items: center;
     margin: 0;
+}
+
+.paymentWrapper {
+    width: 70%;
+    align-self: center;
 }

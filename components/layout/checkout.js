@@ -10,6 +10,7 @@ import { checkoutItems, getAllItems as getAllCartItems } from '../../store/cart-
 import { useSession } from 'next-auth/client';
 import { getAllItems } from '../../store/product-actions';
 import PaymentMethod from '../shop/payment-method';
+import { getAllOrders } from '../../store/admin-actions';
 
 const steps = ['Cart', 'Details', 'Payment'];
 
@@ -87,6 +88,7 @@ function Checkout() {
             await dispatch(checkoutItems(items, productItems));
             await setShowAlert(true);
             await dispatch(getAllCartItems(session.user.email));
+            await dispatch(getAllOrders())
         }
     }
 

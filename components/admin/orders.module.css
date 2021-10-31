@@ -1,0 +1,33 @@
+.container {
+    padding-block: 2rem;
+    height: 100vh;
+}
+
+.header h2 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.label {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.label p {
+    width: 20%;
+    text-align: center;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.pagination {
+    margin-top: 3rem;
+    align-self: center;
+}

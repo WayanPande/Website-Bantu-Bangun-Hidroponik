@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const cartSlice = createSlice({
     name: 'cart',
-    initialState: { items: [], totalItem: 0, alertMessage: false },
+    initialState: { items: [], totalItem: 0, alertMessage: false, searchValue: '', searchButton: false },
     reducers: {
         getAllCartItems(state, action) {
             state.items = action.payload.items
@@ -10,6 +10,12 @@ const cartSlice = createSlice({
         },
         showMessage(state) {
             state.alertMessage = !state.alertMessage
+        },
+        setSearchValue(state, action) {
+            state.searchValue = action.payload.value
+        },
+        triggerSearchInput(state) {
+            state.searchButton = !state.searchButton
         }
     }
 });

@@ -103,14 +103,14 @@ function filterPrice(min, max, items) {
 
 }
 
-function shopHandler(categories, suhu, sortByType, items) {
+function shopHandler(categories, suhu, sortByType, items, priceRange) {
 
     let filteredItems;
 
     filteredItems = setItemsCategories(items, categories);
     filteredItems = setItemsSuhu(filteredItems, suhu);
     filteredItems = setItemsSortBy(sortByType, filteredItems);
-    // filteredItems = filterPrice(priceRange[0], priceRange[1], filteredItems)
+    filteredItems = filterPrice(priceRange[0], priceRange[1], filteredItems)
 
     return filteredItems;
 }
@@ -120,7 +120,9 @@ function Shop(props) {
 
     const productItems = useSelector(state => state.product.items);
     const categoriesTags = useSelector(state => state.product.categories);
+    const searchValue = useSelector(state => state.cart.searchValue);
     const suhuTags = useSelector(state => state.product.suhu);
+    const searchButton = useSelector(state => state.cart.searchButton);
     const [session, loading] = useSession();
     const [items, setItems] = useState([]);
     const [priceRange, setPriceRange] = useState([]);
@@ -139,6 +141,7 @@ function Shop(props) {
         }
     }, [session])
 
+
     useEffect(() => {
         setItems(productItems)
     }, [productItems])
@@ -156,11 +159,11 @@ function Shop(props) {
     // categories change
     useEffect(() => {
 
-        let filteredItems = shopHandler(categoriesTags, suhuTags, sortType, productItems)
+        let filteredItems = shopHandler(categoriesTags, suhuTags, sortType, productItems, priceRange)
 
         setItems(filteredItems)
 
-    }, [categoriesTags, suhuTags, sortType, productItems]);
+    }, [categoriesTags, suhuTags, sortType, productItems, priceRange]);
 
 
 
@@ -173,6 +176,12 @@ function Shop(props) {
         setPriceRange(price)
 
     }
+
+    useEffect(() => {
+        if (searchButton) {
+            console.log('clicked')
+        }
+    }, [searchButton])
 
 
     return (

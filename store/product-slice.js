@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const productSlice = createSlice({
     name: 'product',
-    initialState: { items: [], categories: [], suhu: [] },
+    initialState: { items: [], categories: [], suhu: [], lastId: '' },
     reducers: {
         getAllItems(state, action) {
             state.items = action.payload.items;
@@ -16,7 +16,9 @@ const productSlice = createSlice({
         setSuhuTags(state, action) {
 
             state.suhu = action.payload.data;
-
+        },
+        updateLastId(state, action) {
+            state.lastId = action.payload.id
         }
     }
 });

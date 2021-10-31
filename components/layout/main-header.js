@@ -3,12 +3,13 @@ import classes from './main-header.module.css';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BsFillCartFill } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import CartPopover from '../popover/cart-popover';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 import { IoLogOut, IoSettings } from 'react-icons/io5';
-import { getAllItems } from '../../store/cart-actions';
+import { getAllItems, setSearchButtonClicked, setSearchInput } from '../../store/cart-actions';
+import { useRouter } from 'next/router';
 
 function MainHeader() {
 
@@ -16,9 +17,12 @@ function MainHeader() {
     const cartItems = useSelector(state => state.cart.items);
     const [showPopover, setShowPopover] = useState(null);
     const [btnIsHighLighted, setBtnIsHighLighted] = useState(false);
+    const searchValue = useSelector(state => state.cart.searchValue);
     const [session, loading] = useSession();
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
+    const router = useRouter();
+    const searchRef = useRef();
     const openProfile = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -63,15 +67,27 @@ function MainHeader() {
 
     const cartBtnClasses = `${classes.badge} ${btnIsHighLighted ? classes.bump : ''}`
 
+    const formSubmitHandler = (e) => {
+        e.preventDefault();
+        dispatch(setSearchButtonClicked());
+        if (router.pathname !== '/shop') {
+            router.push('/shop')
+        }
+    }
+
+    const searchInputChangeHandler = (e) => {
+        dispatch(setSearchInput(e.target.value))
+    }
+
 
     return (
         <header className={classes.header}>
             <Link href='/' >
                 <a><img className={classes.img} src='images/Logo.jpg' alt='logo BBH' /></a>
             </Link>
-            <form className={classes.form}>
-                <OutlinedInput id="outlined-basic" size="small" className={classes.searchInput} variant="outlined" />
-                <Button variant="contained" className={classes.btn}><AiOutlineSearch /></Button>
+            <form className={classes.form} onSubmit={formSubmitHandler}>
+                <OutlinedInput id="outlined-basic" size="small" value={searchValue ? searchValue : ''} onChange={searchInputChangeHandler} className={classes.searchInput} inputRef={searchRef} variant="outlined" />
+                <Button type='submit' variant="contained" className={classes.btn}><AiOutlineSearch /></Button>
             </form>
             {session && !loading && (
                 <div className={cartBtnClasses}>

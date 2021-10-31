@@ -1,0 +1,59 @@
+.card {
+    width: 32%;
+    height: 10rem;
+    text-align: center;
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    color: #637381;
+    border: 1px solid #E1E1E1;
+    background: #fff;
+}
+
+.card span {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #000;
+}
+
+.cardWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}
+
+.orderTable {
+    width: fit-content;
+    padding-inline: 1rem;
+    border-radius: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border: 1px solid #E1E1E1;
+    background: #fff;
+}
+
+.chip {
+    background: #E8E8EE;
+    color: #637381;
+}
+
+.btn {
+    color: #000;
+    text-transform: none;
+    margin-block: 1rem;
+}
+
+.buttonWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.container {
+    padding-block: 2rem;
+}

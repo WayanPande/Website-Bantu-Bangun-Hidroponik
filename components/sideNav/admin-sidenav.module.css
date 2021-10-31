@@ -1,0 +1,23 @@
+.img {
+    width: 60%;
+}
+
+.imgWrapper {
+    padding: 1rem;
+    text-align: center;
+}
+
+.sideNavIcon {
+    display: flex;
+    justify-content: center;
+}
+
+.sideNavButtonActive {
+    background: #d6e3fa;
+    color: #3071E7;
+    font-weight: bold;
+}
+
+.iconActive {
+    color: #3071E7;
+}

@@ -69,3 +69,32 @@ export async function updateProductStok(client, collection, id, amount) {
 
     return result;
 }
+
+export async function getAllData(client, collection) {
+    const db = client.db();
+
+    const documents = await db.collection(collection).find().toArray();
+    return documents;
+}
+
+export async function getAllDataReverse(client, collection) {
+    const db = client.db();
+
+    const documents = await db.collection(collection).find().sort({ "_id": -1 }).toArray();
+    return documents;
+}
+
+export async function updateProductData(client, collection, data) {
+    const db = client.db();
+
+    const result = await db.collection(collection).updateOne({ id: data.id }, { $set: { "kategori": data.kategori, "nama": data.nama, "harga": data.harga, "suhu": data.suhu, "stok": data.stok } });
+
+    return result;
+}
+
+export async function getLastData(client, collection) {
+    const db = client.db();
+
+    const documents = await db.collection(collection).find().sort({ "_id": -1 }).limit(1).toArray();
+    return documents;
+}

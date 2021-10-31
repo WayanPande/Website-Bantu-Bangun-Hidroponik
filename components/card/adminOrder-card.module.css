@@ -1,0 +1,34 @@
+.wrapper {
+    display: flex;
+    justify-content: space-around;
+    background: #fff;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    align-items: center;
+}
+
+.wrapper p {
+    width: 20%;
+    text-align: center;
+}
+
+.pending {
+    background: #E8E8EE;
+    color: #637381;
+}
+
+.processing {
+    background: #E8E8EE;
+    color: #278570;
+}
+
+.delivered {
+    background: #E7F9ED;
+    color: #278570;
+}
+
+.cancelled {
+    background: #FFEAEA;
+    color: #FFA69B;
+}

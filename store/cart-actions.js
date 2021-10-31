@@ -283,3 +283,17 @@ export function checkoutItems(items) {
     }
 }
 
+export function setSearchInput(value) {
+    return (dispatch) => {
+        dispatch(cartActions.setSearchValue({
+            value
+        }))
+    }
+}
+
+export function setSearchButtonClicked() {
+    return (dispatch) => {
+        dispatch(cartActions.triggerSearchInput())
+    }
+}
+

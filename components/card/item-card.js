@@ -17,7 +17,7 @@ function ItemCard(props) {
     const [addToCartBtn, setAddToCartBtn] = useState(false)
     const [session, loading] = useSession();
     const router = useRouter();
-
+    const [imgSrc, setImgSrc] = useState(`images/produk/${props.id}.jpg`)
     // useEffect(() => {
     //     console.log(cartItems)
     // }, [cartItems])
@@ -47,10 +47,15 @@ function ItemCard(props) {
 
     }
 
+    const imgErrorHandler = () => {
+        setImgSrc(`images/fallbackImg.png`)
+    }
+
+
     return (
         <div className={`${props.isShopPage && classes.shop} ${classes.wrapper}`}>
             <div className={classes.img}>
-                <img src={`images/produk/${props.id}.jpg`} alt={props.title} />
+                <img src={imgSrc} onError={imgErrorHandler} alt={props.title} />
             </div>
             <div className={classes.test}>
                 <p className={classes.title}>{props.title}</p>

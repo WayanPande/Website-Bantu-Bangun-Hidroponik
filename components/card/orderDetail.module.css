@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 8rem;
+    margin-bottom: 2rem;
+
+}
+
+.img {
+    border-radius: 100vw;
+    background-color: #E8E8EE;
+    display: flex;
+    padding: .5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.img img {
+    width: 80%;
+    height: 80%;
+}

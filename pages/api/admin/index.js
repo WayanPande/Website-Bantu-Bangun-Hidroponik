@@ -1,4 +1,6 @@
-import { connectDatabase, getAllData, getAllDataReverse, getAllDocuments, getLastData, insertDocument, updateProductData } from "../../../helpers/db-util";
+import { connectDatabase, deleteOneProduct, getAllData, getAllDataReverse, getAllDocuments, getLastData, insertDocument, updateOrderStatus, updateProductData } from "../../../helpers/db-util";
+const fs = require('fs/promises')
+const path = require('path')
 
 async function handler(req, res) {
 
@@ -24,15 +26,29 @@ async function handler(req, res) {
     }
 
     if (req.method === 'PUT') {
-
+        const type = req.body.type
         const data = req.body.items
 
-        try {
-            const documents = await updateProductData(client, 'product', data);
-            res.status(200).json({ items: documents });
-        } catch (error) {
-            res.status(500).json({ message: 'Updating item failed!' });
+        if (type === 'update-product') {
+            try {
+                const documents = await updateProductData(client, 'product', data);
+                res.status(200).json({ items: documents });
+            } catch (error) {
+                res.status(500).json({ message: 'Updating item failed!' });
+            }
         }
+
+        if (type === 'update-status') {
+
+            try {
+                const documents = await updateOrderStatus(client, 'order', data);
+                res.status(200).json({ message: 'Success' });
+            } catch (error) {
+                res.status(500).json({ message: 'Updating item failed!' });
+            }
+        }
+
+
     }
 
     if (req.method === 'POST') {
@@ -66,6 +82,39 @@ async function handler(req, res) {
                 res.status(500).json({ message: 'Getting items failed!' });
             }
         }
+
+        if (type === 'update-img-name') {
+            const imgPath = req.body.imgName
+            const id = req.body.id
+            const uploadFolder = path.join('./public/images/produk');
+
+            fs.rename(imgPath, uploadFolder + "\\" + id + ".jpg", function (err) {
+                if (err) throw err;
+                console.log('File Renamed.');
+            })
+            res.status(200).json({ message: "Rename Success" });
+        }
+
+    }
+
+    if (req.method === 'DELETE') {
+        const type = req.body.type
+
+        if (type === 'delete-product') {
+            const id = req.body.id
+
+            try {
+                const documents = await deleteOneProduct(client, 'product', id);
+                fs.unlink('./public/images/produk/' + id + '.jpg', function (err) {
+                    if (err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+                res.status(200).json({ message: 'Item deleted' });
+            } catch (error) {
+                res.status(500).json({ message: 'Getting items failed!' });
+            }
+        }
+
     }
 
 

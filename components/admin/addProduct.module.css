@@ -11,7 +11,7 @@
 
 .sectionOne {
     width: 60%;
-    height: 90%;
+    height: fit-content;
     background: #fff;
     padding: 2rem;
     border-radius: 20px;
@@ -87,4 +87,8 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.imgPreview {
+    width: 50%;
 }

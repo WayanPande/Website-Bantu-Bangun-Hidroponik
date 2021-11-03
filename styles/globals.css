@@ -43,3 +43,12 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+.MuiButton-root {
+  text-transform: none;
+}
+
+#nprogress .bar {
+  height: .3rem;
+  background: #3071E7;
+}

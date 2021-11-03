@@ -6,6 +6,7 @@
     margin-bottom: 1rem;
     cursor: pointer;
     align-items: center;
+    transition: all .3s;
 }
 
 .wrapper p {
@@ -31,4 +32,9 @@
 .cancelled {
     background: #FFEAEA;
     color: #FFA69B;
+}
+
+.wrapper:hover {
+    transform: scale(1.03);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }

@@ -2,7 +2,7 @@ import { Alert, Button, FormControl, InputAdornment, InputLabel, MenuItem, Selec
 import { useEffect, useRef, useState } from "react";
 import { AiFillFileAdd } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, getLastProduct } from "../../store/admin-actions";
+import { addProduct, getLastProduct, uploadImage } from "../../store/admin-actions";
 import classes from './addProduct.module.css'
 
 function getItemId(lastId) {
@@ -42,6 +42,7 @@ function AddProduct() {
     const [isLoading, setIsLoading] = useState(false)
     const [showAlert, setShowAlert] = useState(true);
     const [alertMessage, setAlertMessage] = useState({ type: '', message: '' });
+    const [imgUpload, setImgUpload] = useState()
 
     useEffect(() => {
         setNewId(getItemId(lastId))
@@ -76,11 +77,18 @@ function AddProduct() {
         await setIsLoading(true)
         if (nameRef.current.value.trim() !== '' && stockRef.current.value.trim() !== '' && priceRef.current.value.trim() !== '' && temp !== '' && category !== '') {
             await dispatch(addProduct(item))
+            await dispatch(uploadImage(imgUpload, newId))
         }
 
-        // console.log(item)
         await setShowAlert(true);
         await setIsLoading(false)
+    }
+
+    const fileInputHandler = (e) => {
+        const files = e.target.files
+
+        setImgUpload(files)
+
     }
 
     useEffect(() => {
@@ -113,7 +121,7 @@ function AddProduct() {
             <div className={classes.header}>
                 <h2><AiFillFileAdd /> Add Product</h2>
             </div>
-            <form className={classes.detailWrapper} onSubmit={formSubmitHandler} >
+            <form className={classes.detailWrapper} onSubmit={formSubmitHandler} encType='multipart/form-data' >
                 <div className={classes.sectionOne}>
                     <TextField id="outlined-basic" fullWidth label="Product Name" inputRef={nameRef} variant="outlined" />
                     <div className={classes.inputWrapper} >
@@ -124,8 +132,8 @@ function AddProduct() {
                             }} />
                     </div>
                     <div className={classes.fileInput} >
-                        <label htmlFor='upload' >
-                            <input id='upload' name='upload' type='file' style={{ display: 'none' }} />
+                        <label htmlFor='myFile' >
+                            <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
                             <span>
                                 <div className={classes.uploadContainer}>
                                     <h4>Drag & drop product image here</h4>
@@ -134,6 +142,7 @@ function AddProduct() {
                             </span>
                         </label>
                     </div>
+                    {imgUpload && <img className={classes.imgPreview} alt='preveiew image' src={imgUpload ? URL.createObjectURL(imgUpload[0]) : '#'} />}
                 </div>
                 <div className={classes.sectionTwo}>
                     <div className={classes.sectionTwoContent}>

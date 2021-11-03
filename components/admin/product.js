@@ -38,7 +38,8 @@ function AdminProducts(props) {
     const productItems = useSelector(state => state.product.items);
     const alertType = useSelector(state => state.admin.updateAlert);
     const [page, setPage] = useState(1);
-    const maxPage = productItems.length % 2 === 0 ? Math.floor(productItems.length / 5) : Math.round(productItems.length / 5)
+    // const maxPage = productItems.length % 2 === 0 ? Math.floor(productItems.length / 5) : Math.round(productItems.length / 5)
+    const [maxPage, setMaxPage] = useState(productItems.length % 2 === 0 ? Math.floor(productItems.length / 5) : Math.round(productItems.length / 5))
     const [finalItems, setFinalItems] = useState([]);
     const [items, setItems] = useState([]);
     const [updatePage, setUpdatePage] = useState(false)
@@ -80,6 +81,9 @@ function AdminProducts(props) {
     useEffect(() => {
         if (finalItems.length !== 0) {
             setItems(finalItems[0])
+            if (finalItems[finalItems.length - 1].length === 0) {
+                setMaxPage(prevState => prevState - 1)
+            }
         }
     }, [finalItems])
 
@@ -184,9 +188,9 @@ function AdminProducts(props) {
                     </div>
                     <form className={classes.detailWrapper} onSubmit={formSubmitHandler} >
                         <div className={classes.sectionOne}>
-                            <TextField id="outlined-basic" fullWidth label="Product Name" defaultValue={detailItem.nama} inputRef={nameRef} focused variant="outlined" />
+                            <TextField id="outlined-basic" fullWidth label="Product Name" defaultValue={detailItem.nama} inputRef={nameRef} variant="outlined" />
                             <div className={classes.inputWrapper} >
-                                <TextField id="outlined-basic" fullWidth label="Stock" defaultValue={detailItem.stok} inputRef={stockRef} focused variant="outlined" />
+                                <TextField id="outlined-basic" fullWidth label="Stock" defaultValue={detailItem.stok} inputRef={stockRef} variant="outlined" />
                                 <TextField id="outlined-basic" fullWidth label="Price" defaultValue={detailItem.harga} inputRef={priceRef} variant="outlined" type='number'
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start">Rp</InputAdornment>,

@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 export async function connectDatabase() {
     const client = await MongoClient.connect('mongodb://localhost:27017/hidroponik');
@@ -96,5 +96,20 @@ export async function getLastData(client, collection) {
     const db = client.db();
 
     const documents = await db.collection(collection).find().sort({ "_id": -1 }).limit(1).toArray();
+    return documents;
+}
+
+export async function updateOrderStatus(client, collection, data) {
+    const db = client.db();
+
+    const result = await db.collection(collection).updateOne({ "_id": ObjectId(data.id) }, { $set: { "status": data.status } });
+
+    return result;
+}
+
+export async function deleteOneProduct(client, collection, id) {
+    const db = client.db();
+
+    const documents = await db.collection(collection).deleteOne({ "id": id });
     return documents;
 }

@@ -1,15 +1,12 @@
 import { Chip, IconButton } from '@mui/material';
 import { BsArrowRight } from 'react-icons/bs';
+import { formatDate } from '../../helpers/dateFormat';
 import { formatMoneyOne } from '../../helpers/moneyFormat-util';
 import classes from './adminOrder-card.module.css';
 
 function AdminOrderCard(props) {
 
-    const humanReadableDate = new Date(props.date).toLocaleDateString('en-US', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    });
+    const humanReadableDate = formatDate(props.date)
     const humanReadablePrice = formatMoneyOne(props.totalPrice)
 
     const itemClicked = () => {

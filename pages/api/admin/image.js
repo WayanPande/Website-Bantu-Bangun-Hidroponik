@@ -3,8 +3,6 @@ const fs = require('fs/promises')
 const formidable = require('formidable')
 const path = require('path')
 
-const multer = require('multer')
-
 async function handler(req, res) {
 
     if (req.method === 'POST') {

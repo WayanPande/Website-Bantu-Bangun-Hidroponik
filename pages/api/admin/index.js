@@ -115,6 +115,19 @@ async function handler(req, res) {
             }
         }
 
+        if (type === 'delete-pict') {
+            const id = req.body.id
+            try {
+                fs.unlink('./public/images/produk/' + id + '.jpg', function (err) {
+                    if (err) return console.log(err);
+                    console.log('file deleted successfully');
+                });
+                res.status(200).json({ message: 'Image deleted' });
+            } catch (error) {
+                res.status(500).json({ message: 'failed to delete image!' });
+            }
+        }
+
     }
 
 

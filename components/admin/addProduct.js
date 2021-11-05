@@ -131,18 +131,33 @@ function AddProduct() {
                                 startAdornment: <InputAdornment position="start">Rp</InputAdornment>,
                             }} />
                     </div>
-                    <div className={classes.fileInput} >
-                        <label htmlFor='myFile' >
-                            <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
-                            <span>
-                                <div className={classes.uploadContainer}>
-                                    <h4>Drag & drop product image here</h4>
-                                    <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
-                                </div>
-                            </span>
-                        </label>
-                    </div>
-                    {imgUpload && <img className={classes.imgPreview} alt='preveiew image' src={imgUpload ? URL.createObjectURL(imgUpload[0]) : '#'} />}
+                    {!imgUpload && (
+                        <div className={classes.fileInput} >
+                            <label htmlFor='myFile' >
+                                <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
+                                <span>
+                                    <div className={classes.uploadContainer}>
+                                        <h4>Drag & drop product image here</h4>
+                                        <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
+                                    </div>
+                                </span>
+                            </label>
+                        </div>
+                    )}
+                    {imgUpload && (
+                        <div className={classes.imagePreviewWrapper}>
+                            <img className={classes.imgPreview} alt='preveiew image' src={imgUpload ? URL.createObjectURL(imgUpload[0]) : '#'} />
+                            <label htmlFor='myFile' >
+                                <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
+                                <span>
+                                    <div className={classes.uploadContainer}>
+                                        <h4>Select another file</h4>
+                                        <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
+                                    </div>
+                                </span>
+                            </label>
+                        </div>
+                    )}
                 </div>
                 <div className={classes.sectionTwo}>
                     <div className={classes.sectionTwoContent}>

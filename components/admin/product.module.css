@@ -117,3 +117,17 @@
     align-items: center;
     gap: 1rem;
 }
+
+.imgPreview {
+    width: 50%;
+}
+
+.imagePreviewWrapper {
+    margin-top: 3rem;
+    width: 100%;
+    height: 15rem;
+    border: 1px dashed #a2879c;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+}

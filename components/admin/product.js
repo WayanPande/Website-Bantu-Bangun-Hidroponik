@@ -2,7 +2,7 @@ import { Alert, Button, Divider, FormControl, IconButton, Input, InputAdornment,
 import { Fragment, useEffect, useRef, useState } from "react";
 import { BsArrowRight, BsFillInboxFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProduct } from "../../store/admin-actions";
+import { deleteImage, updateProduct, uploadImage } from "../../store/admin-actions";
 import { getAllItems } from "../../store/product-actions";
 import AdminProductCard from "../card/adminProduct-card";
 import classes from './product.module.css'
@@ -52,6 +52,7 @@ function AdminProducts(props) {
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState({ type: '', message: '' });
     const [isLoading, setIsLoading] = useState(false)
+    const [imgUpload, setImgUpload] = useState()
 
     useEffect(() => {
         if (detailItem) {
@@ -102,6 +103,7 @@ function AdminProducts(props) {
     const detailPageChangeHandler = () => {
         setUpdatePage(prevState => !prevState)
         setShowAlert(false);
+        setImgUpload()
     }
 
     const goToDetailPage = (id) => {
@@ -123,6 +125,12 @@ function AdminProducts(props) {
         }
         await setIsLoading(true)
         await dispatch(updateProduct(item))
+
+        if (imgUpload) {
+            await dispatch(deleteImage(detailItem.id))
+            await dispatch(uploadImage(imgUpload, detailItem.id))
+        }
+
         await setIsLoading(false)
         await setShowAlert(true);
         await dispatch(getAllItems());
@@ -146,6 +154,13 @@ function AdminProducts(props) {
 
         setShowAlert(false);
     };
+
+    const fileInputHandler = (e) => {
+        const files = e.target.files
+
+        setImgUpload(files)
+
+    }
 
     const alert = (
         <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  >
@@ -196,13 +211,13 @@ function AdminProducts(props) {
                                         startAdornment: <InputAdornment position="start">Rp</InputAdornment>,
                                     }} />
                             </div>
-                            <div className={classes.fileInput} >
-                                <label htmlFor='upload' >
-                                    <input id='upload' name='upload' type='file' style={{ display: 'none' }} />
+                            <div className={classes.imagePreviewWrapper}>
+                                <img className={classes.imgPreview} alt='preveiew image' src={imgUpload ? URL.createObjectURL(imgUpload[0]) : 'images/produk/' + detailItem.id + '.jpg'} />
+                                <label htmlFor='myFile' >
+                                    <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
                                     <span>
                                         <div className={classes.uploadContainer}>
-                                            <h4>Drag & drop product image here</h4>
-
+                                            <h4>Select another file</h4>
                                             <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
                                         </div>
                                     </span>

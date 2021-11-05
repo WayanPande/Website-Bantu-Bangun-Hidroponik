@@ -152,6 +152,24 @@ export function deleteProduct(id) {
     }
 }
 
+export function deleteImage(id) {
+    return async (dispatch) => {
+        const body = { id: id, type: 'delete-pict' };
+
+        const response = await fetch('/api/admin', {
+            method: 'DELETE',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const data = await response.json();
+
+        console.log(data)
+    }
+}
+
 export function uploadImage(file, id) {
     return async (dispatch) => {
         // const body = { id: id, type: 'delete-product' };

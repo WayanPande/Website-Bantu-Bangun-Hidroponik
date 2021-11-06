@@ -1,4 +1,4 @@
-import { connectDatabase, deleteOneProduct, getAllData, getAllDataReverse, getAllDocuments, getLastData, insertDocument, updateOrderStatus, updateProductData } from "../../../helpers/db-util";
+import { connectDatabase, deleteOneProduct, getAllData, getAllDataReverse, getAllDocuments, getLastData, insertDocument, updateBlogPost, updateOrderStatus, updateProductData } from "../../../helpers/db-util";
 const fs = require('fs/promises')
 const path = require('path')
 
@@ -38,6 +38,15 @@ async function handler(req, res) {
             }
         }
 
+        if (type === 'update-post') {
+            try {
+                const documents = await updateBlogPost(client, 'blog', data);
+                res.status(200).json({ items: documents });
+            } catch (error) {
+                res.status(500).json({ message: 'Updating item failed!' });
+            }
+        }
+
         if (type === 'update-status') {
 
             try {
@@ -64,10 +73,29 @@ async function handler(req, res) {
             }
         }
 
+        if (type === 'insert-post') {
+            const data = req.body.items
+            try {
+                const documents = await insertDocument(client, 'blog', data);
+                res.status(200).json({ message: 'Success' });
+            } catch (error) {
+                res.status(500).json({ message: 'Adding post failed!' });
+            }
+        }
+
 
         if (type === 'get-last-product') {
             try {
                 const documents = await getLastData(client, 'product');
+                res.status(200).json({ items: documents });
+            } catch (error) {
+                res.status(500).json({ message: 'Getting items failed!' });
+            }
+        }
+
+        if (type === 'get-last-post') {
+            try {
+                const documents = await getLastData(client, 'blog');
                 res.status(200).json({ items: documents });
             } catch (error) {
                 res.status(500).json({ message: 'Getting items failed!' });
@@ -86,7 +114,12 @@ async function handler(req, res) {
         if (type === 'update-img-name') {
             const imgPath = req.body.imgName
             const id = req.body.id
-            const uploadFolder = path.join('./public/images/produk');
+            let uploadFolder
+            if (id[0] === 'p') {
+                uploadFolder = path.join('./public/images/produk');
+            } else if (id[0] === 'i') {
+                uploadFolder = path.join('./public/images/informasi');
+            }
 
             fs.rename(imgPath, uploadFolder + "\\" + id + ".jpg", function (err) {
                 if (err) throw err;
@@ -117,8 +150,17 @@ async function handler(req, res) {
 
         if (type === 'delete-pict') {
             const id = req.body.id
+            let location;
+
+            if (id[0] === 'p') {
+                location = './public/images/produk/' + id + '.jpg';
+            } else if (id[0] === 'i') {
+                location = './public/images/informasi/' + id + '.jpg';
+            }
+
+
             try {
-                fs.unlink('./public/images/produk/' + id + '.jpg', function (err) {
+                fs.unlink(location, function (err) {
                     if (err) return console.log(err);
                     console.log('file deleted successfully');
                 });

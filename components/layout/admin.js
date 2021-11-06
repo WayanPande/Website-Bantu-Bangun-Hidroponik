@@ -1,6 +1,8 @@
 
 import { Fragment, useState } from 'react';
+import AddBlogPost from '../admin/addBlogPost';
 import AddProduct from '../admin/addProduct';
+import BlogPosts from '../admin/blogPosts';
 import AdminDashboard from '../admin/dashboard';
 import AdminOrders from '../admin/orders';
 import AdminProducts from '../admin/product';
@@ -35,6 +37,16 @@ function AdminLayout(props) {
             {sideMenuType === 3 && (
                 <div style={{ marginLeft: 240, paddingInline: '3rem' }}>
                     <AdminOrders />
+                </div>
+            )}
+            {sideMenuType === 4 && (
+                <div style={{ marginLeft: 240, paddingInline: '3rem' }}>
+                    <BlogPosts />
+                </div>
+            )}
+            {sideMenuType === 5 && (
+                <div style={{ marginLeft: 240, paddingInline: '3rem' }}>
+                    <AddBlogPost />
                 </div>
             )}
         </div>

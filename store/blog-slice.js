@@ -2,10 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const blogSlice = createSlice({
     name: 'blog',
-    initialState: { items: [] },
+    initialState: { items: [], lastId: '' },
     reducers: {
         getAllBlogPosts(state, action) {
             state.items = action.payload.items
+        },
+        updateLastId(state, action) {
+            state.lastId = action.payload.id
         }
     }
 });

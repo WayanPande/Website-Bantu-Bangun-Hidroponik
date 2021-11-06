@@ -1,4 +1,5 @@
 import { adminActions } from "./admin-slice";
+import { blogActions } from "./blog-slice";
 import { productActions } from "./product-slice";
 
 export function getOrders() {
@@ -176,8 +177,7 @@ export function uploadImage(file, id) {
 
         const data = new FormData();
         data.append("file", file[0]);
-        data.append('id', 'p0001')
-
+        let type;
 
         const response = await fetch('/api/admin/image', {
             method: 'POST',
@@ -199,5 +199,84 @@ export function uploadImage(file, id) {
         const resultSecond = await responseSecond.json();
 
         console.log(resultSecond)
+    }
+}
+
+
+export function updatePost(items) {
+    return async (dispatch) => {
+
+        const newItem = items;
+
+        const body = { items: newItem, type: 'update-post' };
+
+        const response = await fetch('/api/admin', {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        dispatch(adminActions.setUpdateAlert({
+            items: data.items
+        }))
+        console.log(data.items)
+
+    }
+}
+
+export function getLastPost() {
+    return async (dispatch) => {
+        const body = { type: 'get-last-post' };
+
+        const response = await fetch('/api/admin', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        dispatch(blogActions.updateLastId({
+            id: data.items[0].id
+        }))
+
+    }
+}
+
+export function addPost(items) {
+    return async (dispatch) => {
+
+        const newItem = items;
+
+        const body = { items: newItem, type: 'insert-post' };
+
+        const response = await fetch('/api/admin', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.message === 'Success') {
+            dispatch(blogActions.updateLastId({
+                id: newItem.id
+            }))
+        }
+        dispatch(adminActions.setInputAlert({
+            items: data.message
+        }))
+
+
+        console.log(data)
+
     }
 }

@@ -113,3 +113,11 @@ export async function deleteOneProduct(client, collection, id) {
     const documents = await db.collection(collection).deleteOne({ "id": id });
     return documents;
 }
+
+export async function updateBlogPost(client, collection, data) {
+    const db = client.db();
+
+    const result = await db.collection(collection).updateOne({ id: data.id }, { $set: { "kategori": data.kategori, "judul": data.judul, "deskripsi": data.deskripsi } });
+
+    return result;
+}

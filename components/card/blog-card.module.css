@@ -101,3 +101,25 @@
 .link:hover {
     gap: .5rem;
 }
+
+.adminContainer {
+    width: 20%;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: all .3s;
+}
+
+.adminContainer img {
+    width: 100%;
+    height: 50%;
+}
+
+.adminContent {
+    padding: 1rem;
+}
+
+.adminContainer:hover {
+    transform: scale(1.3);
+}

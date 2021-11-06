@@ -3,7 +3,8 @@ import { Fragment, useState } from 'react';
 import { AiFillFileAdd } from 'react-icons/ai';
 import { MdDashboard } from 'react-icons/md';
 import { ImDrawer2 } from 'react-icons/im';
-import { BsFillCartFill } from 'react-icons/bs';
+import { FaBlogger } from 'react-icons/fa'
+import { BsFillCartFill, BsFillFileEarmarkPostFill } from 'react-icons/bs';
 import classes from './admin-sidenav.module.css';
 
 function AdminSideNav(props) {
@@ -23,13 +24,15 @@ function AdminSideNav(props) {
             </div>
             <Divider />
             <List>
-                {['Dashboard', 'Products', 'Add New Product', 'Orders'].map((text, index) => (
+                {['Dashboard', 'Products', 'Add New Product', 'Orders', 'Blog Posts', 'Add New Post'].map((text, index) => (
                     <ListItem button key={text} onClick={navbarClickHandler(index)} className={`${sideMenu === index ? classes.sideNavButtonActive : ''}`}>
                         <ListItemIcon className={classes.sideNavIcon}>
                             {index === 0 && <MdDashboard className={`${sideMenu === index ? classes.iconActive : ''}`} />}
                             {index === 1 && <ImDrawer2 className={`${sideMenu === index ? classes.iconActive : ''}`} />}
                             {index === 2 && <AiFillFileAdd className={`${sideMenu === index ? classes.iconActive : ''}`} />}
                             {index === 3 && <BsFillCartFill className={`${sideMenu === index ? classes.iconActive : ''}`} />}
+                            {index === 4 && <FaBlogger className={`${sideMenu === index ? classes.iconActive : ''}`} />}
+                            {index === 5 && <BsFillFileEarmarkPostFill className={`${sideMenu === index ? classes.iconActive : ''}`} />}
                         </ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>

@@ -147,7 +147,8 @@ function Shop(props) {
     }, [productItems])
 
     useEffect(() => {
-        dispatch(countCategoriesTags(InitialCategories, productItems));
+        const initial = categoriesTags.length === 0 ? InitialCategories : categoriesTags
+        dispatch(countCategoriesTags(initial, productItems));
     }, [dispatch, productItems, InitialCategories]);
 
     useEffect(() => {

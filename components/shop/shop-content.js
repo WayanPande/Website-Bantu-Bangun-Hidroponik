@@ -1,4 +1,4 @@
-import { Divider, InputBase, MenuItem, OutlinedInput, Select, TextField, Slider, Chip } from '@mui/material';
+import { Divider, InputBase, MenuItem, OutlinedInput, Select, TextField, Slider, Chip, Pagination } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatMoneyOne } from '../../helpers/moneyFormat-util';
@@ -12,6 +12,21 @@ const sortByItems = [
     'Price - high',
 ]
 
+const sliceItems = (items, maxPage) => {
+    let finalItems = [];
+    let prev = 0;
+    let next = 16;
+
+    for (let i = 0; i < maxPage; i++) {
+
+        finalItems[i] = items.slice(prev, next);
+        prev = next
+        next = next + 16
+    }
+
+    return finalItems
+}
+
 const minDistance = 10;
 
 function ShopContent(props) {
@@ -22,6 +37,9 @@ function ShopContent(props) {
     const suhuTags = useSelector(state => state.product.suhu);
     const productItems = props.items;
     const dispatch = useDispatch();
+    const [maxPage, setMaxPage] = useState(Math.ceil(productItems.length / 16))
+    const [finalItems, setFinalItems] = useState([]);
+    const [items, setItems] = useState([]);
 
     const handleChange = (event) => {
         const {
@@ -92,6 +110,29 @@ function ShopContent(props) {
         // dispatch(checkedCategoriesTagsHandler(categoriesTags, e));
     }
 
+    const pageChangeHandler = (event, value) => {
+
+        finalItems.forEach((item, i) => {
+            if (i === value - 1) {
+                setItems(item)
+                return
+            }
+        });
+    }
+
+    useEffect(() => {
+        setFinalItems(sliceItems(productItems, maxPage))
+        setMaxPage(Math.ceil(productItems.length / 16))
+    }, [productItems, maxPage])
+
+    useEffect(() => {
+        if (finalItems.length !== 0) {
+            setItems(finalItems[0])
+            // if (finalItems[finalItems.length - 1].length === 0) {
+            //     setMaxPage(prevState => prevState - 1)
+            // }
+        }
+    }, [finalItems])
 
     return (
         <div className={classes.container}>
@@ -153,12 +194,13 @@ function ShopContent(props) {
 
             </div>
             <div className={classes.secondRow}>
-                {productItems.map((item =>
+                {items.map((item =>
                     <div className={classes.card}>
                         <ItemCard key={item.id} id={item.id} title={item.nama} cost={item.harga} isShopPage={true} />
                     </div>
                 ))}
             </div>
+            <Pagination className={classes.pagination} count={maxPage} color="primary" shape="rounded" size="large" onChange={pageChangeHandler} />
         </div>
     )
 }

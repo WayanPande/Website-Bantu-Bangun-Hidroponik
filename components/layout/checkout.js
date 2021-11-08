@@ -197,17 +197,17 @@ function Checkout() {
                         <h2>Shipping Address</h2>
                         <div className={classes.shippingWrapper}>
                             <div className={classes.shippingInput}>
-                                <TextField sx={{ width: '50%' }} id="name" value={shippingName} label="Recipient Name" variant="outlined" onChange={inputChangeHandler} placeholder='eg. I Wayan Pande' />
-                                <TextField sx={{ width: '50%' }} id="number" value={phoneNumber} label="Phone Number" variant="outlined" placeholder='eg. 081220012' onChange={inputChangeHandler} />
+                                <TextField sx={{ width: '50%' }} className={classes.textInput} id="name" value={shippingName} label="Recipient Name" variant="outlined" onChange={inputChangeHandler} placeholder='eg. I Wayan Pande' />
+                                <TextField sx={{ width: '50%' }} className={classes.textInput} id="number" value={phoneNumber} label="Phone Number" variant="outlined" placeholder='eg. 081220012' onChange={inputChangeHandler} />
                             </div>
                             <div className={classes.shippingInput}>
-                                <TextField sx={{ width: '80%' }} id="city" value={city} onChange={inputChangeHandler} label="City or District" variant="outlined" placeholder='eg. Bali, Kota Denpasar, Denpasar Barat' />
-                                <TextField id="postalCode" value={postalCode} onChange={inputChangeHandler} label="Postal Code" variant="outlined" placeholder='eg. 80111' />
+                                <TextField sx={{ width: '80%' }} className={classes.textInput} id="city" value={city} onChange={inputChangeHandler} label="City or District" variant="outlined" placeholder='eg. Bali, Kota Denpasar, Denpasar Barat' />
+                                <TextField id="postalCode" className={classes.textInput} value={postalCode} onChange={inputChangeHandler} label="Postal Code" variant="outlined" placeholder='eg. 80111' />
                             </div>
-                            <TextField sx={{ width: '100%' }} id="address" value={address} onChange={inputChangeHandler} label="Address" variant="outlined" placeholder='eg. Jl. Pulau Batanta no.11' />
+                            <TextField sx={{ width: '100%' }} className={classes.textInput} multiline id="address" value={address} onChange={inputChangeHandler} label="Address" variant="outlined" placeholder='eg. Jl. Pulau Batanta no.11' />
                         </div>
                         <h2>Choose Duration</h2>
-                        <FormControl sx={{ width: '50%' }}>
+                        <FormControl sx={{ width: '50%' }} className={classes.textInput} >
                             <InputLabel id="demo-simple-select-label">Duration</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"

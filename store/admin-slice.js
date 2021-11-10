@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const adminSlice = createSlice({
     name: 'admin',
-    initialState: { orders: [], updateAlert: {}, inputAlert: '', orders: [] },
+    initialState: { orders: [], updateAlert: {}, inputAlert: '', orders: [], totalUser: 0 },
     reducers: {
         getAllOrders(state, action) {
             state.orders = action.payload.items
@@ -15,6 +15,9 @@ const adminSlice = createSlice({
         },
         setOrders(state, action) {
             state.orders = action.payload.items
+        },
+        setTotalUser(state, action) {
+            state.totalUser = action.payload.user
         }
     }
 });

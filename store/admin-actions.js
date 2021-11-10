@@ -280,3 +280,25 @@ export function addPost(items) {
 
     }
 }
+
+
+export function getTotalUser() {
+    return async (dispatch) => {
+        const body = { type: 'get-total-user' };
+
+        const response = await fetch('/api/admin', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        dispatch(adminActions.setTotalUser({
+            user: data.items
+        }))
+
+    }
+}

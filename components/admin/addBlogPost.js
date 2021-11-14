@@ -74,6 +74,10 @@ function AddBlogPost() {
 
         await setShowAlert(true);
         await setIsLoading(false)
+        nameRef.current.value = '';
+        descriptionRef.current.value = '';
+        setImgUpload()
+        setCategory('')
     }
 
     const fileInputHandler = (e) => {

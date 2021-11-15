@@ -32,6 +32,12 @@ const getDetailItem = (items, id) => {
 
 }
 
+const searchFilter = (items, input) => {
+
+    return items.filter(item => item.nama.toLowerCase().includes(input.toLowerCase()))
+
+}
+
 function AdminProducts(props) {
 
     const dispatch = useDispatch();
@@ -49,6 +55,7 @@ function AdminProducts(props) {
     const nameRef = useRef();
     const stockRef = useRef();
     const priceRef = useRef();
+    const searchRef = useRef();
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState({ type: '', message: '' });
     const [isLoading, setIsLoading] = useState(false)
@@ -82,9 +89,14 @@ function AdminProducts(props) {
     useEffect(() => {
         if (finalItems.length !== 0) {
             setItems(finalItems[0])
-            if (finalItems[finalItems.length - 1].length === 0) {
-                setMaxPage(prevState => prevState - 1)
-            }
+            finalItems.forEach((item) => {
+                if (item.length === 0) {
+                    setMaxPage(prevState => prevState - 1)
+                }
+            })
+            // if (finalItems[finalItems.length - 1].length === 0) {
+            //     setMaxPage(prevState => prevState - 1)
+            // }
         }
     }, [finalItems])
 
@@ -162,6 +174,22 @@ function AdminProducts(props) {
 
     }
 
+    const searchProductHandler = (e) => {
+        const input = searchRef.current.value
+        let temp
+
+        if (e.key === 'Enter') {
+            if (input.trim().length > 0) {
+                temp = searchFilter(productItems, input)
+                temp = sliceItems(temp, maxPage)
+                setFinalItems(temp)
+            } else {
+                setFinalItems(sliceItems(productItems, productItems.length % 2 === 0 ? Math.floor(productItems.length / 5) - 1 : Math.round(productItems.length / 5) - 1))
+                setMaxPage(productItems.length % 2 === 0 ? Math.floor(productItems.length / 5) - 1 : Math.round(productItems.length / 5) - 1)
+            }
+        }
+    }
+
     const alert = (
         <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  >
             <Alert variant="filled" severity={alertMessage.type} onClose={handleClose} className={classes.alert} sx={{ width: '100%' }}>
@@ -170,13 +198,15 @@ function AdminProducts(props) {
         </Snackbar>
     );
 
+    // console.log('render ulang')
+
     return (
         <div className={classes.container}>
             {!updatePage && (
                 <Fragment>
                     <div className={classes.header}>
                         <h2><BsFillInboxFill /> Products</h2>
-                        <TextField id="outlined-basic" variant="outlined" placeholder='Search...' />
+                        <TextField id="outlined-basic" variant="outlined" placeholder='Search...' inputRef={searchRef} onKeyPress={searchProductHandler} />
                     </div>
                     <div className={classes.main}>
                         <div className={classes.label}>

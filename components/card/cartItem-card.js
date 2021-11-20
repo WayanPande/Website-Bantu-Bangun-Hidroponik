@@ -27,7 +27,7 @@ function CartItemCard(props) {
             </div>
             <div className={classes.content}>
                 <div className={classes.imgWrapper}>
-                    <img src={`images/produk/${props.id}.jpg`} alt={props.title} />
+                    <img src={`/images/produk/${props.id}.jpg`} alt={props.title} />
                 </div>
                 <div className={classes.title}>
                     <p>{props.title}</p>

@@ -83,7 +83,7 @@ function MainHeader() {
     return (
         <header className={classes.header}>
             <Link href='/' >
-                <a><img className={classes.img} src='images/Logo.jpg' alt='logo BBH' /></a>
+                <a><img className={classes.img} src='/images/Logo.jpg' alt='logo BBH' /></a>
             </Link>
             <form className={classes.form} onSubmit={formSubmitHandler}>
                 <OutlinedInput id="outlined-basic" size="small" value={searchValue ? searchValue : ''} onChange={searchInputChangeHandler} className={classes.searchInput} inputRef={searchRef} variant="outlined" />

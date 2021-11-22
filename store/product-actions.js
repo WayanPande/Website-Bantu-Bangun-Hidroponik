@@ -102,3 +102,25 @@ export const checkedSuhuTagsHandler = (prevState, checkbox) => {
         }));
     }
 }
+
+export const getProductDetail = (id) => {
+    return async (dispatch) => {
+        const reqBody = { id: id, type: 'get-detail-item' };
+
+        console.log(id)
+
+        const response = await fetch('/api/products', {
+            method: 'POST',
+            body: JSON.stringify(reqBody),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        dispatch(productActions.setDetailItem({
+            item: data.items[0]
+        }))
+    }
+}

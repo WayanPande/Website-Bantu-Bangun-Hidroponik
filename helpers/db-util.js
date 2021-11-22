@@ -121,3 +121,17 @@ export async function updateBlogPost(client, collection, data) {
 
     return result;
 }
+
+export async function countDocument(client, collection) {
+    const db = client.db();
+
+    const documents = await db.collection(collection).find().count();
+    return documents;
+}
+
+export async function getDetailItem(client, collection, id) {
+    const db = client.db();
+
+    const documents = await db.collection(collection).find({ id: id }).toArray();
+    return documents;
+}

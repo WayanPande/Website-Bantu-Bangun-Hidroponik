@@ -1,4 +1,4 @@
-import { connectDatabase, getAllDocuments, insertDocument } from "../../helpers/db-util";
+import { connectDatabase, getAllDocuments, getDetailItem, insertDocument } from "../../helpers/db-util";
 
 async function handler(req, res) {
 
@@ -13,20 +13,19 @@ async function handler(req, res) {
 
 
     if (req.method === 'POST') {
-        const products = req.body.items;
-        console.log(products)
+        const type = req.body.type;
 
-        try {
-            await insertDocument(client, 'blog', products)
-            client.close();
-        } catch (error) {
-            res.status(500).json({ message: 'Inserting data failed' });
-            return;
+        if (type === 'get-detail-item') {
+            const id = req.body.id;
+
+            try {
+                const documents = await getDetailItem(client, 'product', id)
+                res.status(200).json({ items: documents });
+            } catch (error) {
+                res.status(500).json({ message: 'Getting data failed' });
+                return;
+            }
         }
-
-
-
-        res.status(201).json({ message: 'Success' });
     }
 
     if (req.method === 'GET') {

@@ -26,6 +26,10 @@ function ItemCarousel(props) {
         list = productItems.filter(item => item.harga < 10000);
     }
 
+    if (carouselType === 'similar-product') {
+        list = productItems.filter(item => item.kategori === props.category);
+    }
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -55,7 +59,7 @@ function ItemCarousel(props) {
         <section>
             <div className={classes.header}>
                 <div className={classes.title}>
-                    <h2>{props.title}</h2>
+                    <h1>{props.title}</h1>
                     <Link href='/shop'>
                         <a>See all <MdKeyboardArrowRight /></a>
                     </Link>

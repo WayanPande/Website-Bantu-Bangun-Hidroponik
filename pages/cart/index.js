@@ -4,19 +4,14 @@ import Checkout from "../../components/layout/checkout";
 import MainHeader from "../../components/layout/main-header";
 import { getAllItems } from "../../store/product-actions";
 import Head from 'next/head';
-import { useSession } from "next-auth/client";
+import { getSession } from "next-auth/client";
 
 function CartPage() {
 
     const dispatch = useDispatch();
-    const [session, loading] = useSession();
 
     useEffect(() => {
-        if (!session) {
-            window.location.href = '/auth/login'
-        }
         dispatch(getAllItems());
-
     }, [dispatch]);
 
     return (
@@ -32,3 +27,20 @@ function CartPage() {
 }
 
 export default CartPage;
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context)
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/auth/login',
+                permanent: false,
+            },
+        }
+    }
+
+    return {
+        props: { session }
+    }
+}

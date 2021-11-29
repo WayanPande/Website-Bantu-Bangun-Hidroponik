@@ -7,7 +7,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import CartPopover from '../popover/cart-popover';
 import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
-import { IoLogOut, IoSettings } from 'react-icons/io5';
+import { IoLogOut, IoPersonSharp, IoSettings } from 'react-icons/io5';
 import { getAllItems, setSearchButtonClicked, setSearchInput } from '../../store/cart-actions';
 import { useRouter } from 'next/router';
 
@@ -89,25 +89,28 @@ function MainHeader() {
                 <OutlinedInput id="outlined-basic" size="small" value={searchValue ? searchValue : ''} onChange={searchInputChangeHandler} className={classes.searchInput} inputRef={searchRef} variant="outlined" />
                 <Button type='submit' variant="contained" className={classes.btn}><AiOutlineSearch /></Button>
             </form>
-            {session && !loading && (
-                <div className={cartBtnClasses}>
-                    <Badge color="error" badgeContent={totalCartItem} >
-                        <Button variant="contained" aria-describedby={id} onClick={cartHandlerOpen} className={classes.btn}><BsFillCartFill /></Button>
-                    </Badge>
-                    <CartPopover id={id} open={open} showPopover={showPopover} cartHandlerClose={cartHandlerClose} />
-                </div>
-            )}
+
+            <div className={cartBtnClasses}>
+                <Badge color="error" badgeContent={totalCartItem} showZero >
+                    <Button variant="contained" aria-describedby={id} onClick={cartHandlerOpen} className={classes.btn}><BsFillCartFill /></Button>
+                </Badge>
+                <CartPopover id={id} open={open} showPopover={showPopover} cartHandlerClose={cartHandlerClose} />
+            </div>
+
             {!session && !loading && (
                 <div className={classes.LoginRegisterBtn}>
-                    <Button href='/auth/login' variant="outlined" className={classes.btn}>Login</Button>
-                    <Button href='/auth/register' className={classes.registerBtn} variant="contained" className={classes.btn}>Register</Button>
+                    <IconButton href='/auth/login' size="small" sx={{ ml: 2 }}>
+                        <Avatar sx={{ bgcolor: '#1976d2' }}>
+                            <IoPersonSharp />
+                        </Avatar>
+                    </IconButton>
                 </div>
             )}
             {session && !loading && (
                 <Fragment>
                     <Tooltip title="Account settings">
                         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                            <Avatar sx={{ bgcolor: 'black' }} alt={session.user.name} src={`https://avatars.dicebear.com/api/avataaars/${session.user.name}.svg`} />
+                            <Avatar sx={{ bgcolor: '#1976d2' }} alt={session.user.name} src={`https://avatars.dicebear.com/api/avataaars/${session.user.name}.svg`} />
                         </IconButton>
                     </Tooltip>
                     <Menu

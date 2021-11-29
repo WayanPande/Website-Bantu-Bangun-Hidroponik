@@ -1,9 +1,9 @@
 import { Alert, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Snackbar, TextField, useMediaQuery } from '@mui/material';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import classes from './login.module.css';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import Link from 'next/link';
-import { signIn } from 'next-auth/client';
+import { signIn, useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
@@ -20,6 +20,7 @@ function LoginPage() {
     const emailInputRef = useRef();
     const router = useRouter();
     const matches = useMediaQuery('(min-width:600px)');
+    const [session, loading] = useSession();
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -91,10 +92,20 @@ function LoginPage() {
         }
 
         if (!result.error) {
-            router.replace('/');
+            console.log(result)
+            // router.replace('/');
         }
 
     }
+
+    useEffect(() => {
+        if (session && session.user.name === 'admin') {
+            // admin page
+            router.replace('/admin');
+        } else if (session && session.user.name !== 'admin') {
+            router.replace('/');
+        }
+    }, [session])
 
     const emailInputValid = <TextField id="email" label="Email address" variant="outlined" onBlur={validateEmailHandler} inputRef={emailInputRef} />;
 

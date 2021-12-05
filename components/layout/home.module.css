@@ -28,16 +28,36 @@
 .banner {
     width: 70%;
     border-radius: 20px;
-    padding: 1rem;
-    padding-right: min(70%, 30rem);
-    background-image: url('../../public/images/Banner-1.png');
-    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+}
+
+.banner img {
+    border-radius: 20px;
+}
+
+.bannerContent {
+    margin-top: -50%;
+    margin-left: 2rem;
+    z-index: 3;
+    width: 40%;
 }
 
 .bannerFull {
     width: 100%;
     border-radius: 20px;
     height: 25rem;
-    background-image: url('../../public/images/Banner-2.png');
-    background-size: cover;
+}
+
+.bannerFullImg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.bannerFullImg img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
 }

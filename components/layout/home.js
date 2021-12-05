@@ -7,6 +7,7 @@ import Modal from '../ui/Modal';
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useSession } from "next-auth/client";
+import Image from 'next/image';
 
 function Home(props) {
 
@@ -41,13 +42,18 @@ function Home(props) {
                 <section className={classes.firstRow}>
                     <CategoryCard />
                     <div className={classes.banner}>
-                        <h2>Bantu Bangun Hidroponik</h2>
-                        <p>website yang menyediakan informasi mengenai alat dan bahan untuk hidroponik serta tempat penjualan alat dan bahan untuk melakukan penanaman dengan cara hidroponik</p>
+                        <div className={classes.bannerFullImg}>
+                            <Image src={'/images/Banner-1.png'} alt='BBH Banner' layout='fill' priority />
+                        </div>
                     </div>
                 </section>
                 <ItemCarousel key='Popular Product' title='Popular Product' type='popular' />
                 <ItemCarousel key='More than just low prices' title='More than just low prices' type='low-price' />
-                <div className={classes.bannerFull}></div>
+                <div className={classes.bannerFull}>
+                    <div className={classes.bannerFullImg}>
+                        <Image src={'/images/Banner-2.png'} alt='BBH Banner' layout='fill' />
+                    </div>
+                </div>
                 <BlogCarousel />
             </div>
         </Fragment>

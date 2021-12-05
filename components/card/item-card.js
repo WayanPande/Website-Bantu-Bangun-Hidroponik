@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { addItemsCart, getAllItems } from '../../store/cart-actions';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 function ItemCard(props) {
 
@@ -17,7 +18,7 @@ function ItemCard(props) {
     const [addToCartBtn, setAddToCartBtn] = useState(false)
     const [session, loading] = useSession();
     const router = useRouter();
-    const [imgSrc, setImgSrc] = useState(`images/produk/${props.id}.jpg`)
+    const [imgSrc, setImgSrc] = useState(`/images/produk/${props.id}.jpg`)
     // useEffect(() => {
     //     console.log(cartItems)
     // }, [cartItems])
@@ -48,14 +49,19 @@ function ItemCard(props) {
     }
 
     const imgErrorHandler = () => {
-        setImgSrc(`images/fallbackImg.png`)
+        setImgSrc(`/images/fallbackImg.png`)
     }
 
+    const goToDetailPage = () => {
+        // const url = props.title.toLowerCase().replace(/[^\w ]+/g, '').replace(/\d+/g, '-');
+        router.push('/shop/' + props.id)
+    }
 
     return (
         <div className={`${props.isShopPage && classes.shop} ${classes.wrapper}`}>
-            <div className={classes.img}>
-                <img src={imgSrc} onError={imgErrorHandler} alt={props.title} />
+            <div className={classes.img} onClick={goToDetailPage} >
+                <Image src={imgSrc} onError={imgErrorHandler} alt={props.title} width={185} height={150} />
+                {/* <img src={imgSrc} onError={imgErrorHandler} alt={props.title} /> */}
             </div>
             <div className={classes.test}>
                 <p className={classes.title}>{props.title}</p>
@@ -74,16 +80,16 @@ export function ItemCardLoading() {
     return (
         <div className={classes.wrapper}>
             <div className={classes.imgLoading}>
-                <Skeleton variant="rectangular" className={classes.skeletonImg} />
+                <Skeleton variant="rectangular" animation="wave" className={classes.skeletonImg} />
             </div>
             <div className={classes.titleLoading}>
-                <Skeleton variant="text" />
-                <Skeleton variant="text" />
-                <Skeleton variant="text" />
+                <Skeleton variant="text" animation="wave" />
+                <Skeleton variant="text" animation="wave" />
+                <Skeleton variant="text" animation="wave" />
             </div>
             <div className={classes.Skeletonfooter}>
-                <Skeleton variant="text" className={classes.skeletonPrice} />
-                <Skeleton variant="rectangular" className={classes.skeletonCart} />
+                <Skeleton variant="text" animation="wave" className={classes.skeletonPrice} />
+                <Skeleton variant="rectangular" animation="wave" className={classes.skeletonCart} />
             </div>
         </div>
     )

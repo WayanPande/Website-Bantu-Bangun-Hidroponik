@@ -26,10 +26,12 @@
     width: 100%;
     border-radius: inherit;
     transition: all .5s;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .img img:hover {
-    transform: scale(1.15);
+    transform: scale(1.05);
 }
 
 .title {

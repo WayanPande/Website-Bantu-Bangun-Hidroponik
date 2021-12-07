@@ -68,3 +68,15 @@
     width: 30%;
     border-radius: 20px;
 }
+
+.cardSkeleton {
+    min-width: 20rem;
+    height: 32rem;
+    width: fit-content;
+    border-radius: 20px;
+    border: 2px solid #E1E1E1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .5rem;
+}

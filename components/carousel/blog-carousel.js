@@ -1,4 +1,4 @@
-import { Checkbox, Chip, FormControl, InputAdornment, InputLabel, LinearProgress, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
+import { Checkbox, Chip, FormControl, InputAdornment, InputLabel, LinearProgress, ListItemText, MenuItem, OutlinedInput, Select, Skeleton } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { IoReloadOutline } from 'react-icons/io5';
@@ -32,6 +32,7 @@ function BlogCarousel(props) {
     const MIN = 1;
     const MAX = totalPost;
     const normalize = value => ((value - MIN) * 100) / (MAX - MIN);
+    const isLoading = useSelector(state => state.ui.isLoading);
 
     useEffect(() => {
         dispatch(getAllBlog());
@@ -116,9 +117,10 @@ function BlogCarousel(props) {
             setBlogPosts(
                 allBlogPosts.filter(item => item.judul.toLowerCase().includes(searchInputRef.current.value.toLowerCase()))
             )
-            // console.log(searchInputRef.current.value)
         }
     }
+
+    const skeletonCount = Array.apply(null, Array(5)).map(function () { })
 
     return (
         <div className={classes.container}>
@@ -165,13 +167,23 @@ function BlogCarousel(props) {
             )}
             <div className={classes.slider}>
                 <Slider ref={carouselControl} {...settings}>
-                    {blogPosts.map((item =>
+                    {!isLoading && blogPosts.map((item =>
                         <div className={classes.card}>
                             <BlogCard key={item.id} id={item.id} description={item.deskripsi} title={item.judul} category={item.kategori} />
                         </div>
                     ))}
+                    {isLoading && skeletonCount.map((item =>
+                        <div className={classes.card}>
+                            <div className={classes.cardSkeleton}>
+                                <Skeleton variant="rectangular" width={300} height={210} />
+                                <Skeleton variant="text" width={100} height={40} sx={{ alignSelf: 'start', marginTop: '1rem', borderRadius: '10px' }} />
+                                <Skeleton variant="text" width={300} height={30} />
+                                <Skeleton variant="text" width={250} height={30} sx={{ alignSelf: 'start' }} />
+                                <Skeleton variant="text" width={300} height={100} />
+                            </div>
+                        </div>
+                    ))}
                 </Slider>
-                {blogPosts.length < 1 && <p style={{ textAlign: 'center' }} >No data</p>}
             </div>
             {totalPost >= 2 && (
                 <div className={classes.footer}>

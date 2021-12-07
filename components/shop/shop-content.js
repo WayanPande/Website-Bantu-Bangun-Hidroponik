@@ -189,13 +189,13 @@ function ShopContent(props) {
             </div>
             <div className={classes.chipContainer}>
 
-                {categoriesTags.map(category => category.checked ? <Chip className={classes.chip} label={category.title} onDelete={tagRemoveHandler(category.title)} /> : '')}
-                {suhuTags.map(suhu => suhu.checked ? <Chip className={classes.chip} label={suhu.title} onDelete={tagRemoveHandler(suhu.title)} /> : '')}
+                {categoriesTags.map(category => category.checked ? <Chip key={category.title} className={classes.chip} label={category.title} onDelete={tagRemoveHandler(category.title)} /> : '')}
+                {suhuTags.map(suhu => suhu.checked ? <Chip key={suhu.title} className={classes.chip} label={suhu.title} onDelete={tagRemoveHandler(suhu.title)} /> : '')}
 
             </div>
             <div className={classes.secondRow}>
                 {items.map((item =>
-                    <div className={classes.card}>
+                    <div key={item.id} className={classes.card}>
                         <ItemCard key={item.id} id={item.id} title={item.nama} cost={item.harga} isShopPage={true} />
                     </div>
                 ))}

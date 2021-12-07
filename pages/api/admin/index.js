@@ -1,4 +1,4 @@
-import { connectDatabase, deleteOneProduct, getAllData, getAllDataReverse, getAllDocuments, getLastData, insertDocument, updateBlogPost, updateOrderStatus, updateProductData } from "../../../helpers/db-util";
+import { connectDatabase, countDocument, deleteOneProduct, getAllData, getAllDataReverse, getAllDocuments, getLastData, insertDocument, updateBlogPost, updateOrderStatus, updateProductData } from "../../../helpers/db-util";
 const fs = require('fs/promises')
 const path = require('path')
 
@@ -126,6 +126,15 @@ async function handler(req, res) {
                 console.log('File Renamed.');
             })
             res.status(200).json({ message: "Rename Success" });
+        }
+
+        if (type === 'get-total-user') {
+            try {
+                const documents = await countDocument(client, 'users');
+                res.status(200).json({ items: documents });
+            } catch (error) {
+                res.status(500).json({ message: 'Getting items failed!' });
+            }
         }
 
     }

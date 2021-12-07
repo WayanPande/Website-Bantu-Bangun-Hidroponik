@@ -39,7 +39,7 @@ function ShopSideNav(props) {
             <FormControl component="fieldset" variant="standard">
                 <FormGroup>
                     {tags.map((item =>
-                        <div className={classes.checkbox}>
+                        <div key={item.title} className={classes.checkbox}>
                             <FormControlLabel
                                 control={
                                     <Checkbox checked={item.checked} onChange={handleChange} name={item.title} />

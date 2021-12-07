@@ -40,7 +40,7 @@ function CartPopover(props) {
                     <p>Rp {totalPrice}</p>
                 </div>
                 <div className={classes.items}>
-                    {cartItems.length === 0 && <p>No Data</p>}
+                    {cartItems.length === 0 && <p className='center' >Your Cart Is Empty</p>}
                     {cartItems.length > 0 && cartItems[0].items.map((item =>
 
                         <CartItemCard title={item.name} key={item.id} id={item.id} price={item.price} amount={item.amount} />
@@ -49,8 +49,7 @@ function CartPopover(props) {
 
                 </div>
                 <div className={classes.footer}>
-                    <Link href='/cart' ><Button variant="outlined" href='/cart' className={classes.btn} >Go to cart</Button></Link>
-                    <Button variant="contained" className={classes.btn}>Checkout</Button>
+                    <Link href='/cart' ><Button variant="contained" href='/cart' className={classes.btn} >Go to cart</Button></Link>
                 </div>
             </div>
         </Popover>

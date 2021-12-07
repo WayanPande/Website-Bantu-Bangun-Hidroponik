@@ -24,7 +24,9 @@
     padding: 1rem;
     border-radius: 30px;
     width: 100%;
-    font-size: .8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', 'Open Sans', 'Lato', sans-serif;
 }
 
 .btn:hover {

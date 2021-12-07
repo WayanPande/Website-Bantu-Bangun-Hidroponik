@@ -107,8 +107,6 @@ export const getProductDetail = (id) => {
     return async (dispatch) => {
         const reqBody = { id: id, type: 'get-detail-item' };
 
-        console.log(id)
-
         const response = await fetch('/api/products', {
             method: 'POST',
             body: JSON.stringify(reqBody),
@@ -119,8 +117,16 @@ export const getProductDetail = (id) => {
 
         const data = await response.json();
 
-        dispatch(productActions.setDetailItem({
-            item: data.items[0]
-        }))
+        if (data.items.length === 0 && id) {
+            dispatch(productActions.setDetailItem({
+                item: { error: true }
+            }))
+        } else {
+
+            dispatch(productActions.setDetailItem({
+                item: { ...data.items[0], error: false }
+            }))
+        }
+
     }
 }

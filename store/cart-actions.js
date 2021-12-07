@@ -67,7 +67,7 @@ export function addItemsCart(productItem, email, cartItems) {
                 if (existingCartItem) {
                     const updatedItem = {
                         ...existingCartItem,
-                        amount: existingCartItem.amount + 1,
+                        amount: existingCartItem.amount + productItem.amount,
                         price: existingCartItem.price + productItem.price
                     }
                     updatedItems = [...cartItems[existingUser].items];

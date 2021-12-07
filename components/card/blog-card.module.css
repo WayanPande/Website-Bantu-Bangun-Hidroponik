@@ -95,7 +95,7 @@
 }
 
 .link span {
-    color: #3071E7;
+    color: #3071e7;
 }
 
 .link:hover {
@@ -109,6 +109,7 @@
     overflow: hidden;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     transition: all .3s;
+    cursor: pointer;
 }
 
 .adminContainer img {
@@ -121,5 +122,5 @@
 }
 
 .adminContainer:hover {
-    transform: scale(1.3);
+    transform: scale(1.1);
 }

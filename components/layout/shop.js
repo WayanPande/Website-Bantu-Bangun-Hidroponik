@@ -5,7 +5,7 @@ import { countCategoriesTags, countSuhuTags, getAllItems } from '../../store/pro
 import ShopContent from '../shop/shop-content';
 import ShopSideNav from '../sideNav/shop-sidenav';
 import classes from './shop.module.css';
-import { getAllItems as getAllCartItems } from '../../store/cart-actions';
+import { getAllItems as getAllCartItems, setSearchButtonClicked } from '../../store/cart-actions';
 import { useSession } from 'next-auth/client';
 
 const InitialCategories = [
@@ -115,6 +115,10 @@ function shopHandler(categories, suhu, sortByType, items, priceRange) {
     return filteredItems;
 }
 
+function searchHandler(items, searchVal) {
+    return items.filter(item => item.nama.toLowerCase().includes(searchVal.toLowerCase()))
+}
+
 
 function Shop(props) {
 
@@ -128,12 +132,16 @@ function Shop(props) {
     const [priceRange, setPriceRange] = useState([]);
     const [sortType, setSortType] = useState('');
     const dispatch = useDispatch();
-    const maxPrice = productItems.length > 0 ? setItemsSortBy('Price - high', productItems)[0].harga : 300000;
-    const minPrice = productItems.length > 0 ? setItemsSortBy('Price - high', productItems)[productItems.length - 1].harga : 1000;
+    const maxPrice = productItems.length > 0 ? setItemsSortBy('Price - high', productItems)[0].harga : 150000;
+    const minPrice = productItems.length > 0 ? setItemsSortBy('Price - high', productItems)[productItems.length - 1].harga : 100;
 
-    if (productItems.length === 0) {
-        dispatch(getAllItems())
-    }
+
+    useEffect(() => {
+        console.log(productItems)
+        if (productItems.length === 0) {
+            dispatch(getAllItems())
+        }
+    }, [])
 
     useEffect(() => {
         if (session) {
@@ -141,13 +149,22 @@ function Shop(props) {
         }
     }, [session])
 
-
     useEffect(() => {
         setItems(productItems)
     }, [productItems])
 
     useEffect(() => {
-        const initial = categoriesTags.length === 0 ? InitialCategories : categoriesTags
+        // console.log(categoriesTags)
+        // const initial = categoriesTags.length === 0 ? InitialCategories : categoriesTags
+
+        let initial = categoriesTags.filter(item => item.checked)
+
+        if (initial.length > 0) {
+            initial = categoriesTags // ini gara2 cuk
+        } else {
+            initial = InitialCategories
+        }
+
         dispatch(countCategoriesTags(initial, productItems));
     }, [dispatch, productItems, InitialCategories]);
 
@@ -180,7 +197,8 @@ function Shop(props) {
 
     useEffect(() => {
         if (searchButton) {
-            console.log('clicked')
+            setItems(searchHandler(productItems, searchValue))
+            dispatch(setSearchButtonClicked());
         }
     }, [searchButton])
 
@@ -188,9 +206,9 @@ function Shop(props) {
     return (
         <div className={classes.container}>
             <div className={classes.sideNav} >
-                <ShopSideNav key={1} title='Categories' type='categories' />
+                <ShopSideNav key={'categories'} title='Categories' type='categories' />
                 <Divider className={classes.divider} />
-                <ShopSideNav key={2} title='Suhu' type='suhu' />
+                <ShopSideNav key={'suhu'} title='Suhu' type='suhu' />
             </div>
             <div className={classes.main}>
                 <ShopContent items={items} sortBy={sortByItems} maxPrice={maxPrice} minPrice={minPrice} filterPrice={filterPriceHandler} />

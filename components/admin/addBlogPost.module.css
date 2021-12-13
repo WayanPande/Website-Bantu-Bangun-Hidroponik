@@ -81,6 +81,7 @@
     font-family: 'poppins', sans-serif;
     border-radius: 20px;
     text-transform: none;
+    align-self: center;
 }
 
 .header h2 {

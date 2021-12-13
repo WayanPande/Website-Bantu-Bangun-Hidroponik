@@ -1,8 +1,9 @@
 import { Alert, Button, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { AiFillFileAdd } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, getLastPost, uploadImage } from "../../store/admin-actions";
+import ModalBlogAdmin from "../ui/modalBlog-admin";
 import classes from './addBlogPost.module.css'
 
 function getItemId(lastId) {
@@ -41,6 +42,7 @@ function AddBlogPost() {
     const [alertMessage, setAlertMessage] = useState({ type: '', message: '' });
     const [imgUpload, setImgUpload] = useState()
     const descriptionRef = useRef();
+    const [modalState, setModalState] = useState(false)
 
     useEffect(() => {
         setNewId(getItemId(lastId))
@@ -103,6 +105,10 @@ function AddBlogPost() {
         setShowAlert(false);
     };
 
+    const modalHandler = () => {
+        setModalState(prevState => !prevState)
+    }
+
     const alert = (
         <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  >
             <Alert variant="filled" severity={alertMessage.type} onClose={handleClose} className={classes.alert} sx={{ width: '100%' }}>
@@ -112,76 +118,80 @@ function AddBlogPost() {
     );
 
     return (
-        <div className={classes.container}>
-            {alert}
-            <div className={classes.header}>
-                <h2><AiFillFileAdd /> Add New Post</h2>
-            </div>
-            <form className={classes.detailWrapper} onSubmit={formSubmitHandler} encType='multipart/form-data' >
-                <div className={classes.sectionOne}>
-                    <TextField id="outlined-basic" fullWidth label="Post Title" inputRef={nameRef} variant="outlined" />
-
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        label="Post Description"
-                        multiline
-                        fullWidth
-                        sx={{ marginTop: '2rem' }}
-                        inputRef={descriptionRef}
-                    />
-
-                    {!imgUpload && (
-                        <div className={classes.fileInput} >
-                            <label htmlFor='myFile' >
-                                <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
-                                <span>
-                                    <div className={classes.uploadContainer}>
-                                        <h4>Drag & drop product image here</h4>
-                                        <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
-                                    </div>
-                                </span>
-                            </label>
-                        </div>
-                    )}
-                    {imgUpload && (
-                        <div className={classes.imagePreviewWrapper}>
-                            <img className={classes.imgPreview} alt='preveiew image' src={imgUpload ? URL.createObjectURL(imgUpload[0]) : '#'} />
-                            <label htmlFor='myFile' >
-                                <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
-                                <span>
-                                    <div className={classes.uploadContainer}>
-                                        <h4>Select another file</h4>
-                                        <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
-                                    </div>
-                                </span>
-                            </label>
-                        </div>
-                    )}
+        <Fragment>
+            {modalState && <ModalBlogAdmin id="i0003" judul={nameRef.current.value} kategori={category} deskripsi={descriptionRef.current.value} onClick={modalHandler} imgUpload={imgUpload} />}
+            <div className={classes.container}>
+                {alert}
+                <div className={classes.header}>
+                    <h2><AiFillFileAdd /> Add New Post</h2>
                 </div>
-                <div className={classes.sectionTwo}>
-                    <div className={classes.sectionTwoContent}>
-                        <TextField id="outlined-basic" disabled label={newId} variant="outlined" />
-                        <FormControl fullWidth className={classes.textInput} >
-                            <InputLabel id="category">Category</InputLabel>
-                            <Select
-                                labelId="category"
-                                id="category"
-                                value={category}
-                                label="Category"
-                                onChange={categoryChange}
-                            >
-                                <MenuItem value={'media tanam'}>Media Tanam</MenuItem>
-                                <MenuItem value={'bibit tanaman'}>Bibit Tanaman</MenuItem>
-                                <MenuItem value={'pupuk'}>Pupuk</MenuItem>
-                                <MenuItem value={'alat bantu'}>Alat Bantu</MenuItem>
-                                <MenuItem value={'wadah tanam'}>Wadah Tanam</MenuItem>
-                            </Select>
-                        </FormControl>
+                <form className={classes.detailWrapper} onSubmit={formSubmitHandler} encType='multipart/form-data' >
+                    <div className={classes.sectionOne}>
+                        <TextField id="outlined-basic" fullWidth label="Post Title" inputRef={nameRef} variant="outlined" />
+
+                        <TextField
+                            id="outlined-multiline-flexible"
+                            label="Post Description"
+                            multiline
+                            fullWidth
+                            sx={{ marginTop: '2rem' }}
+                            inputRef={descriptionRef}
+                        />
+
+                        {!imgUpload && (
+                            <div className={classes.fileInput} >
+                                <label htmlFor='myFile' >
+                                    <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
+                                    <span>
+                                        <div className={classes.uploadContainer}>
+                                            <h4>Drag & drop product image here</h4>
+                                            <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
+                                        </div>
+                                    </span>
+                                </label>
+                            </div>
+                        )}
+                        {imgUpload && (
+                            <div className={classes.imagePreviewWrapper}>
+                                <img className={classes.imgPreview} alt='preveiew image' src={imgUpload ? URL.createObjectURL(imgUpload[0]) : '#'} />
+                                <label htmlFor='myFile' >
+                                    <input id='myFile' name='myFile' type='file' style={{ display: 'none' }} onChange={fileInputHandler} />
+                                    <span>
+                                        <div className={classes.uploadContainer}>
+                                            <h4>Select another file</h4>
+                                            <Button variant="text" component='span' className={classes.uploadBtn} >Select Files</Button>
+                                        </div>
+                                    </span>
+                                </label>
+                            </div>
+                        )}
                     </div>
-                    <Button variant='contained' type='submit' className={classes.submitBtn} disabled={isLoading} >Submit Post</Button>
-                </div>
-            </form>
-        </div>
+                    <div className={classes.sectionTwo}>
+                        <div className={classes.sectionTwoContent}>
+                            <TextField id="outlined-basic" disabled label={newId} variant="outlined" />
+                            <FormControl fullWidth className={classes.textInput} >
+                                <InputLabel id="category">Category</InputLabel>
+                                <Select
+                                    labelId="category"
+                                    id="category"
+                                    value={category}
+                                    label="Category"
+                                    onChange={categoryChange}
+                                >
+                                    <MenuItem value={'media tanam'}>Media Tanam</MenuItem>
+                                    <MenuItem value={'bibit tanaman'}>Bibit Tanaman</MenuItem>
+                                    <MenuItem value={'pupuk'}>Pupuk</MenuItem>
+                                    <MenuItem value={'alat bantu'}>Alat Bantu</MenuItem>
+                                    <MenuItem value={'wadah tanam'}>Wadah Tanam</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <Button variant='outlined' type='button' className={classes.submitBtn} onClick={modalHandler} >Preview</Button>
+                        </div>
+                        <Button variant='contained' type='submit' className={classes.submitBtn} disabled={isLoading} >Publish now</Button>
+                    </div>
+                </form>
+            </div>
+        </Fragment>
     )
 }
 

@@ -147,16 +147,20 @@ function MainHeader() {
                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                        <MenuItem>
-                            <Avatar alt={session.user.name} src={`https://avatars.dicebear.com/api/avataaars/${session.user.name}.svg`} /> {session.user.name}
-                        </MenuItem>
+                        <Link href="/user" >
+                            <MenuItem>
+                                <Avatar alt={session.user.name} src={`https://avatars.dicebear.com/api/avataaars/${session.user.name}.svg`} /> {session.user.name}
+                            </MenuItem>
+                        </Link>
                         <Divider />
-                        <MenuItem>
-                            <ListItemIcon>
-                                <IoSettings fontSize="small" />
-                            </ListItemIcon>
-                            Settings
-                        </MenuItem>
+                        <Link href="/user" >
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <IoSettings fontSize="small" />
+                                </ListItemIcon>
+                                Settings
+                            </MenuItem>
+                        </Link>
                         <MenuItem onClick={logoutHandler} >
                             <ListItemIcon>
                                 <IoLogOut fontSize="small" />
